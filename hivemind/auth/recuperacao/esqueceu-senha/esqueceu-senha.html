@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiveMind - Recuperar Senha</title>
+    <link rel="stylesheet" href="esqueceu-senha.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="login-container">
+        <header>
+            <img src="icone.png" alt="Logo Hive Mind" class="logo">
+            <h1>Hivemind</h1>
+            <p>Esqueceu sua senha? Sem problemas!</p>
+        </header>
+
+        <div class="card">
+            <h2>Recuperar senha</h2>
+            <p class="description">Digite seu email cadastrado e enviaremos um código para redefinir sua senha.</p>
+
+            <form id="recoveryForm">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="seuemail@gmail.com" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Enviar código</button>
+            </form>
+
+            <div class="back-to-login">
+                <a href="login.html">
+                    <i data-lucide="arrow-left"></i>
+                    Voltar ao login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets\js\api.js"></script>
+    <script src="esqueceu-senha.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

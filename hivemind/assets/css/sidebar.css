@@ -1,0 +1,93 @@
+/* Container da Sidebar */
+.sidebar {
+    width: var(--sidebar-width); /* Definido no global/layout como 260px */
+    background-color: var(--white);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    position: fixed; /* Mantém o menu sempre visível ao rolar a página */
+    height: 100vh;
+    z-index: 100;
+}
+
+/* Cabeçalho do Menu (Logo + Nome) */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    margin-bottom: 40px;
+}
+
+.mini-logo {
+    width: 32px;
+    height: 32px;
+}
+
+.sidebar-header strong {
+    font-size: 18px;
+    color: var(--text-main);
+    display: block;
+}
+
+.sidebar-header span {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Navegação Principal */
+.menu {
+    flex: 1; /* Faz o menu ocupar o espaço disponível, empurrando o footer para baixo */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+}
+
+/* Ícones do Menu */
+.menu-item i {
+    width: 18px;
+    height: 18px;
+}
+
+/* Estado de Hover (Passar o mouse) */
+.menu-item:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-blue);
+}
+
+/* Estado Ativo (Página atual) */
+.menu-item.active {
+    background-color: #eff6ff; /* Azul bem clarinho */
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Footer da Sidebar (Perfil e Logout) */
+.sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Estilo específico para o botão Sair */
+.menu-item.logout {
+    margin-top: 8px;
+}
+
+.menu-item.logout:hover {
+    background-color: #fef2f2; /* Vermelho clarinho */
+    color: var(--error);
+}

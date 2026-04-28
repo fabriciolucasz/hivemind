@@ -1,0 +1,92 @@
+/* 1. Definição de Variáveis (Design Tokens) */
+:root {
+    /* Cores Principais */
+    --primary-blue: #3b6cf4;
+    --primary-hover: #2563eb;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+
+    /* Cores de Texto */
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+
+    /* Cores de Status */
+    --success: #22c55e;
+    --error: #ef4444;
+    --warning: #f59e0b;
+
+    /* Bordas e Sombras */
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    /* Espaçamentos e Bordas */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+}
+
+/* 2. Reset de Estilos (Garante que tudo fique igual em qualquer navegador) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Inter', sans-serif; /* Fonte padrão do projeto */
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* 3. Tipografia Geral */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    transition: 0.2s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* 4. Estilização da Barra de Rolagem (Scrollbar) - Estilo Dashboard */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* 5. Classes Utilitárias (Ajudam a poupar código) */
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+
+.hidden { display: none !important; }
+
+/* Impede que imagens ultrapassem o tamanho do container */
+img {
+    max-width: 100%;
+    display: block;
+}

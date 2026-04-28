@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hivemind - Eventos</title>
+    
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    
+    <link rel="stylesheet" href="eventos.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/img/icone.png" alt="Logo Hivemind" class="mini-logo">
+                <div>
+                    <strong>Hivemind</strong>
+                    <span>Apoio Vocacional</span>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="diario.html" class="menu-item">
+                    <i data-lucide="book-open"></i> Diário
+                </a>
+                <a href="desempenho.html" class="menu-item">
+                    <i data-lucide="trending-up"></i> Evolução
+                </a>
+                <a href="eventos.html" class="menu-item active">
+                    <i data-lucide="calendar"></i> Eventos
+                </a>
+                <a href="mentor-ia.html" class="menu-item">
+                    <i data-lucide="sparkles"></i> Mentor IA
+                </a>
+                <a href="teste-vocacional.html" class="menu-item">
+                    <i data-lucide="clipboard-list"></i> Teste Vocacional
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="perfil.html" class="menu-item">
+                    <i data-lucide="user"></i> Perfil
+                </a>
+                <a href="../auth/login/login.html" class="menu-item logout">
+                    <i data-lucide="log-out"></i> Sair
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Eventos e Oportunidades</h1>
+                    <p>Descubra feiras, palestras e workshops para a sua carreira.</p>
+                </div>
+                <button class="btn-primary" id="btn-abrir-modal">
+                    <i data-lucide="calendar-plus"></i> Adicionar Evento
+                </button>
+            </header>
+
+            <section class="toolbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Procurar eventos...">
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option value="todos">Todos os tipos</option>
+                        <option value="feira">Feira de Profissões</option>
+                        <option value="palestra">Palestra</option>
+                        <option value="workshop">Workshop</option>
+                    </select>
+                </div>
+            </section>
+
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-type type-feira">Feira de Profissões</div>
+                    <div class="event-body">
+                        <span class="event-date">
+                            <i data-lucide="calendar"></i> 25 de Maio, 2026
+                        </span>
+                        <h3>Feira de Carreiras USP 2026</h3>
+                        <p>Explore as possibilidades do mercado de trabalho e converse com profissionais de diversas áreas.</p>
+                        <div class="event-location">
+                            <i data-lucide="map-pin"></i> São Paulo - SP
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <button class="btn-outline">Ver detalhes</button>
+                        <button class="btn-icon"><i data-lucide="bookmark"></i></button>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-type type-palestra">Palestra</div>
+                    <div class="event-body">
+                        <span class="event-date">
+                            <i data-lucide="calendar"></i> 02 de Junho, 2026
+                        </span>
+                        <h3>O Futuro da IA na Medicina</h3>
+                        <p>Webinar gratuito sobre as inovações tecnológicas no setor da saúde e as novas competências necessárias.</p>
+                        <div class="event-location">
+                            <i data-lucide="video"></i> Online (Google Meet)
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <button class="btn-outline">Ver detalhes</button>
+                        <button class="btn-icon"><i data-lucide="bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-evento" class="modal-overlay hidden">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Adicionar Novo Evento</h2>
+                <button class="btn-close" id="btn-fechar-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </header>
+            <form id="form-evento">
+                <div class="input-group">
+                    <label for="titulo-evento">Nome do Evento</label>
+                    <input type="text" id="titulo-evento" placeholder="Ex: Workshop de Design" required>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="data-evento">Data</label>
+                        <input type="date" id="data-evento" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="tipo-evento">Tipo</label>
+                        <select id="tipo-evento">
+                            <option value="feira">Feira</option>
+                            <option value="palestra">Palestra</option>
+                            <option value="workshop">Workshop</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="desc-evento">Descrição</label>
+                    <textarea id="desc-evento" placeholder="Breve resumo sobre o evento..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets\js\api.js"></script>
+    <script src="eventos.js"></script>
+    
+    <script>lucide.createIcons();</script>
+</body>
+</html>
