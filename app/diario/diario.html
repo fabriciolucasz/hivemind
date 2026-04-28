@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hivemind - Diário de Interesses</title>
+    
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/sidebar.css">
+    
+    <link rel="stylesheet" href="diario.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/img/icone.png" alt="Logo Hivemind" class="mini-logo">
+                <div>
+                    <strong>Hivemind</strong>
+                    <span>Apoio Vocacional</span>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="diario.html" class="menu-item active">
+                    <i data-lucide="book-open"></i> Diário
+                </a>
+                <a href="desempenho.html" class="menu-item">
+                    <i data-lucide="trending-up"></i> Evolução
+                </a>
+                <a href="eventos.html" class="menu-item">
+                    <i data-lucide="calendar"></i> Eventos
+                </a>
+                <a href="mentor-ia.html" class="menu-item">
+                    <i data-lucide="sparkles"></i> Mentor IA
+                </a>
+                <a href="teste-vocacional.html" class="menu-item">
+                    <i data-lucide="clipboard-list"></i> Teste Vocacional
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="perfil.html" class="menu-item">
+                    <i data-lucide="user"></i> Perfil
+                </a>
+                <a href="../auth/login/login.html" class="menu-item logout">
+                    <i data-lucide="log-out"></i> Sair
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Diário de Interesses</h1>
+                    <p>Registre suas experiências e ajude a IA a conhecer você.</p>
+                </div>
+                <button class="btn-primary" id="btn-novo-relato">
+                    <i data-lucide="plus"></i> Novo Relato
+                </button>
+            </header>
+
+            <section class="toolbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Pesquisar em seus relatos...">
+                </div>
+                <button class="btn-secondary">
+                    <i data-lucide="filter"></i> Filtrar
+                </button>
+            </section>
+
+            <div class="entries-grid">
+                <article class="entry-card">
+                    <div class="entry-header">
+                        <span class="entry-date">12 de Abril, 2026</span>
+                        <div class="entry-actions">
+                            <button class="btn-icon"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-icon delete"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <h3>Aula de Programação em Python</h3>
+                    <p class="entry-content">
+                        Hoje aprendi sobre lógica de programação e como o Python é usado em Inteligência Artificial. Achei fascinante a forma como os algoritmos funcionam...
+                    </p>
+                    <div class="tags-container">
+                        <span class="tag tag-tech">Tecnologia</span>
+                        <span class="tag tag-exatas">Exatas</span>
+                    </div>
+                </article>
+
+                <article class="entry-card">
+                    <div class="entry-header">
+                        <span class="entry-date">10 de Abril, 2026</span>
+                        <div class="entry-actions">
+                            <button class="btn-icon"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-icon delete"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <h3>Visita ao Museu de Biologia</h3>
+                    <p class="entry-content">
+                        A exposição sobre genética me fez pensar muito sobre como a ciência pode mudar o futuro da medicina. Gostei muito da parte de biologia molecular.
+                    </p>
+                    <div class="tags-container">
+                        <span class="tag tag-natureza">Ciências</span>
+                    </div>
+                </article>
+
+                </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets\js\api.js"></script>
+    <script src="diario.js"></script>
+    
+    <script>lucide.createIcons();</script>
+</body>
+</html>

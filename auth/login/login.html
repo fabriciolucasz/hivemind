@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiveMind - Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="login-container">
+        <header>
+            <img src="icone.png" alt="Logo Hive Mind" class="logo">
+            <h1>Hivemind</h1>
+            <p>Bem-vindo de volta! Faça login para continuar</p>
+        </header>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="email">E-mail</label>
+                <div class="input-wrapper">
+                    <i data-lucide="mail" class="input-icon"></i>
+                    <input type="email" id="email" name="email" placeholder="seuemail@gmail.com" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <div class="input-wrapper">
+                    <i data-lucide="lock" class="input-icon"></i> 
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                    <button type="button" id="togglePassword" class="icon-button">
+                        <i data-lucide="eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="remember" id="remember">
+                    <span>Lembrar de mim</span>
+                </label>
+                <a href="#" class="forgot-link">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn-primary">Entrar</button>
+
+            <p class="signup-text">
+                Não tem uma conta? <a href="#">Criar conta</a>
+            </p>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets\js\api.js"></script>
+    <script src="login.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

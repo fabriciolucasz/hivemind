@@ -1,0 +1,147 @@
+/* Definição de variáveis globais (Cores e Gradientes) */
+:root {
+    --primary-blue: #3b6cf4;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --bg-gradient: radial-gradient(circle at top left, #b8cef0, #fff, #b8e0d4);
+}
+
+/* Configuração geral do corpo e centralização com Flexbox */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+}
+
+/* dimensionamento do container */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* Estilização do cabeçalho (Logo e Títulos) */
+header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Card branco do formulário com sombra leve */
+form {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Posicionamento relativo para ícones dentro do input */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.input-icon {
+    position: absolute;
+    left: 14px; 
+    width: 16px; 
+    color: var(--text-muted);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    color: var(--text-muted);
+}
+
+/* Estilo padrão dos campos de texto */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* O 40px abre espaço para o ícone */
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-sizing: border-box; /* Essencial para o padding não quebrar a largura */
+    position: relative;
+    z-index: 1;
+}
+
+/* Efeito visual ao clicar no campo (Foco) */
+input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 108, 244, 0.1);
+}
+
+/* Botão de ícone (olho da senha) posicionado à direita */
+.icon-button {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+/* Alinhamento da linha "Lembrar de mim" e "Esqueceu a senha" */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+span{
+    color: #64748B;
+}
+/* Botão principal com efeito de hover (brilho) */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+/* Texto de rodapé para criação de conta */
+.signup-text {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 24px;
+}

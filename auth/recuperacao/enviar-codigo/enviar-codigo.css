@@ -1,0 +1,155 @@
+/* Variáveis de estilo globais do projeto */
+:root {
+    --primary-blue: #3b6cf4;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --bg-gradient: radial-gradient(circle at top left, #b8cef0, #fff, #b8e0d4);
+}
+
+/* Centralização do layout e fundo */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+}
+
+.login-container {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 24px;
+}
+
+.logo {
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Estilo do card branco conforme a imagem anexada */
+.card {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.description, .instructions {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.description strong {
+    color: var(--primary-blue);
+    font-weight: 600; /* Garante que o negrito continue nítido */
+}
+
+.input-group {
+    margin: 20px 0;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ícone de chave dentro do input */
+.input-icon {
+    position: absolute;
+    left: 14px;
+    width: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+input {
+    width: 100%;
+    padding: 12px 12px 12px 42px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    letter-spacing: 2px; /* Espaçamento para o código ficar mais legível */
+    box-sizing: border-box;
+}
+
+/* Botão principal de verificação */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+/* Seção de reenvio e links de navegação */
+.resend-section {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.resend-link {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.back-link a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.back-link a:hover {
+    color: var(--primary-blue);
+}
+
+.back-link svg {
+    width: 16px;
+}
