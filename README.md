@@ -1,4 +1,3 @@
-````md
 # 🧠 Hive Mind
 
 Sistema web inteligente voltado para orientação vocacional, utilizando dados comportamentais, interesses e desempenho acadêmico para auxiliar usuários na escolha de sua formação.
@@ -122,13 +121,17 @@ Antes de iniciar, instale:
 
 # 🔽 1. Clonar o Repositório
 
+## Comando
+
 ```bash
 git clone URL_DO_REPOSITORIO
-````
+```
 
 ---
 
 # 📁 2. Entrar na pasta do projeto
+
+## Comando
 
 ```bash
 cd HiveMind
@@ -414,6 +417,3 @@ Projeto sem fins lucrativos, desenvolvido para fins acadêmicos.
 * Dashboard analítico
 * Notificações inteligentes
 * Versão mobile completa
-
-```
-```
