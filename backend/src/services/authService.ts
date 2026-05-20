@@ -40,9 +40,9 @@ export async function loginService({ email, password }: LoginRequest) {
   const token = generateToken({ id: user.id, email: user.email });
 
   return {
-    token,
-    user: { id: user.id, name: user.name, email: user.email },
-  };
+  token,
+  user,
+};
 }
 
 function generateToken(payload: TokenPayload) {
