@@ -12,7 +12,7 @@ app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
   return res.json({
-    message: "API funcionando",
+    message: "API HiveMind funcionando",
   });
 });
 
