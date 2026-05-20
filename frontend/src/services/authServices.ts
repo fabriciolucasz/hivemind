@@ -1,6 +1,7 @@
 import type {
   LoginRequest,
   LoginResponse,
+  RegisterRequest,
   ForgotPasswordRequest,
   VerifyCodeRequest,
   ResetPasswordRequest,
@@ -50,4 +51,16 @@ export async function resetPassword(data: ResetPasswordRequest): Promise<void> {
     body: JSON.stringify(data),
   });
   return handleResponse<void>(response);
+}
+
+export async function register(data: RegisterRequest): Promise<LoginResponse> {
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  return handleResponse<LoginResponse>(response);
 }

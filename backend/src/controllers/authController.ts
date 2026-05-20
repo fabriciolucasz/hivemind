@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { loginService, registerService } from '../services/authService';
+import { authPresenter } from '../presenters/authPresenter';
+
 
 export async function register(req: Request, res: Response) {
   try {
@@ -11,7 +13,7 @@ export async function register(req: Request, res: Response) {
     }
 
     const result = await registerService({ name, email, password });
-    res.status(201).json(result);
+    res.status(201).json(authPresenter(result));
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
@@ -27,7 +29,7 @@ export async function login(req: Request, res: Response) {
     }
 
     const result = await loginService({ email, password });
-    res.status(200).json(result);
+    res.status(200).json(authPresenter(result));
   } catch (error: any) {
     res.status(401).json({ message: error.message });
   }
