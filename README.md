@@ -83,74 +83,32 @@ Auxiliar estudantes — principalmente do ensino médio — a tomarem decisões 
 
 ---
 
-## 🧩 Tecnologias (exemplo — ajuste conforme seu projeto)
+## 🧩 Tecnologias
 
-- Frontend: 
-- Backend: 
-- Banco de Dados:
-- Autenticação: 
-- IA / Processamento de dados: (a definir)
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
 
----
+### Backend
+- Node.js
+- Express
+- TypeScript
 
-## 🔒 Requisitos Não Funcionais
+### Banco de Dados
+- PostgreSQL
+- Prisma ORM
 
-- Segurança dos dados do usuário
-- Interface simples e intuitiva
-- Sistema responsivo (web)
-- Armazenamento confiável
-- Bom desempenho nas operações
-- Escalabilidade para múltiplos usuários
-
----
-
-## 🧪 Testes
-
-O sistema considera cenários como:
-
-- Validação de cadastro (email e senha)
-- Login com credenciais inválidas
-- Recuperação de senha com código
-- Operações CRUD (perfil, diário, eventos, notas)
-- Geração de recomendações com dados insuficientes
+### Autenticação
+- JWT (JSON Web Token)
+- bcrypt
 
 ---
 
-## 📊 Diferenciais
+# 📦 Instalação do Projeto
 
-- 📌 Acompanhamento contínuo do usuário
-- 📌 Análise comportamental ao longo do tempo
-- 📌 Integração de múltiplas fontes de dados
-- 📌 Recomendações personalizadas com IA
+## 🔽 Clonar o Repositório
 
----
-
-## 👨‍💻 Equipe
-
-- Arthur Rodrigues  
-- Enrico Tulio  
-- Fabrício Lucas  
-- Matheus Anderson  
-- Camille Silva  
-
----
-
-## 📄 Licença
-
-Projeto sem fins lucrativos, desenvolvido para fins acadêmicos.
-
----
-
-## 📌 Status do Projeto
-
-🚧 Em desenvolvimento
-
----
-
-## 💡 Futuras Melhorias
-
-- Integração com instituições de ensino
-- IA mais avançada (Machine Learning)
-- Dashboard analítico
-- Notificações inteligentes
-- Versão mobile completa
+```bash
+git clone URL_DO_REPOSITORIO
