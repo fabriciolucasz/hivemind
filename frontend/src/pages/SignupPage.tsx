@@ -14,11 +14,9 @@ import {
 } from 'lucide-react';
 
 import { register } from '../services/authServices';
-import { useAuth } from '../context/AuthContext';
 
 export function SignupPage() {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
 
   const [step, setStep] = useState(1);
 
@@ -81,36 +79,38 @@ export function SignupPage() {
     }
   };
 
-  const handleStep2Submit = async (
-    e: React.FormEvent
-  ) => {
-    e.preventDefault();
+const handleStep2Submit = async (
+  e: React.FormEvent
+) => {
 
-    try {
-      const response = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        age: Number(formData.age),
-        grade: formData.grade,
-        interests: formData.interests,
-      });
+  e.preventDefault();
 
-      signIn(response.token, response.user);
+  try {
 
-      navigate('/dashboard');
-    } catch (error: any) {
-      setErrors({
-        api:
-          error.message ||
-          'Erro ao criar conta',
-      });
-    }
-  };
+    await register({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      age: Number(formData.age),
+      grade: formData.grade,
+      interests: formData.interests,
+    });
 
-  const handleSkip = () => {
-    navigate('/dashboard');
-  };
+    navigate('/');
+
+  } catch (error: any) {
+
+    setErrors({
+      api:
+        error.message ||
+        'Erro ao criar conta',
+    });
+
+  }
+
+};
+
+
 
   if (step === 1) {
     return (
@@ -435,22 +435,13 @@ export function SignupPage() {
               </p>
             </div>
 
-            <div className="flex gap-4 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={handleSkip}
-              >
-                Pular
-              </Button>
-
+            <div className="pt-4">
               <Button
                 type="submit"
-                className="flex-1"
+                className="w-full"
                 size="lg"
               >
-                Começar
+                Criar conta
               </Button>
             </div>
           </form>

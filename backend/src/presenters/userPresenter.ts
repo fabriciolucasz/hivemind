@@ -1,4 +1,4 @@
-export function authPresenter(data: any) {
+export function userPresenter(data: any) {
   return {
     token: data.token,
     user: {
