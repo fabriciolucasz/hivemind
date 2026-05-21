@@ -1,3 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ==========================================================================
+   RESETS E REGRAS GLOBAIS
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: #F8FAFB;
+}
+
+
+/* ==========================================================================
+   ESTILOS DA EQUIPE (MAIN)
+   ========================================================================== */
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -181,4 +202,742 @@
     right: 0;
     border-right-color: var(--border);
   }
+}
+
+
+/* ==========================================================================
+   ESTILOS DA PÁGINA DO DIÁRIO (MATHEUS)
+   ========================================================================== */
+
+/* Estrutura do Layout Principal splitado */
+.layout-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ================= BARRA LATERAL ================= */
+.sidebar {
+  width: 255px;
+  background-color: white;
+  border-right: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo-container {
+  padding: 24px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #2563EB;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-text h2 {
+  font-size: 18px;
+  color: #1A202C;
+  font-weight: 500;
+  line-height: 28px;
+  margin: 0;
+}
+
+.logo-text p {
+  color: #64748B;
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0;
+}
+
+.sidebar-menu {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.sidebar-menu button, .sidebar-footer button {
+  background: transparent;
+  border: none;
+  color: #1A202C;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-menu button:hover, .sidebar-footer button:hover {
+  background-color: #F8FAFB;
+}
+
+.sidebar-menu button.ativo {
+  background-color: #F1F5F9;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  padding: 17px 16px;
+  border-top: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ================= ÁREA DE CONTEÚDO PRINCIPAL ================= */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ================= ESTRUTURA UNIFICADA DE PÁGINAS ================= */
+
+/* Caixote master de qualquer página interna */
+.page-container {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1200px;
+}
+
+/* Estrutura padrão de topo */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Alinhamento horizontal para Ícone + Título */
+.page-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title-row h1 {
+  font-size: 30px;
+  color: #1A202C;
+  font-weight: 500;
+  line-height: 36px;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: #64748B;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0;
+}
+
+/* card base em branco */
+.universal-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.10), 0px 1px 3px rgba(0, 0, 0, 0.10);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.universal-card h2 {
+  font-size: 18px;
+  color: #1A202C;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ================= COMPONENTES INTERNOS GERAIS ================= */
+
+/* Inputs e Caixas de Texto */
+.form-textarea {
+  width: 100%;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 120px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #1A202C;
+  background: #FFFFFF;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-textarea:focus {
+  border-color: #2563EB;
+}
+
+.form-textarea::placeholder {
+  color: #94A3B8;
+}
+
+/* Botões Padrões */
+.btn-primary {
+  background-color: #2563EB;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #1D4ED8;
+}
+
+/* Rodapé do Formulário */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+/* Mensagens de Informação */
+.info-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748B;
+  font-size: 14px;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #94A3B8;
+  font-size: 12px;
+  font-weight: bold;
+  color: #64748B;
+}
+
+/* Títulos de Seção Soltos (Fora dos cards) */
+.section-header h2 {
+  font-size: 20px;
+  color: #1A202C;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Lista de Cards do Diário */
+.entradas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.entrada-item {
+  gap: 12px; 
+  padding: 20px 24px;
+}
+
+.text-muted {
+  color: #64748B;
+  font-size: 14px;
+}
+
+.entrada-texto {
+  color: #1A202C;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Etiquetas (Tags) */
+.tags-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tag-badge {
+  background: rgba(37, 99, 235, 0.10);
+  color: #2563EB;
+  padding: 4px 12px;
+  border-radius: 33px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Alinhamento dos Títulos de Seção com Ícones */
+.card-header-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  gap: 12px;
+}
+
+.icon-placeholder {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estrutura ao redor da caixa de texto */
+.textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Footer logo abaixo da caixa de texto */
+.textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+/* Botão Adicionar Tag */
+.btn-add-tag {
+  background: transparent;
+  border: 1px dashed #CBD5E1;
+  color: #64748B;
+  padding: 6px 16px;
+  border-radius: 33px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+
+.btn-add-tag:hover {
+  border-color: #94A3B8;
+  color: #475569;
+  background-color: rgba(241, 245, 249, 0.5);
+}
+
+/* Contador de caracteres */
+.char-counter {
+  font-size: 13px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+/* ================= ESTRUTURA DA PÁGINA DIÁRIO  ================= */
+
+.diario-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2 partes para a esquerda, 1 parte para a direita */
+  gap: 24px;
+  align-items: start; /* Impede que as colunas estiquem desnecessariamente */
+}
+
+.diario-main-column, .diario-side-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utilitários Flex */
+.flex-row-center {
+  display: flex;
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-2 {
+  gap: 8px;
+}
+.mt-4 {
+  margin-top: 24px;
+}
+.py-4 {
+  padding: 16px 0;
+}
+.text-center {
+  text-align: center;
+}
+
+/* --- ELEMENTOS DA NOVA ENTRADA --- */
+
+.date-picker-input {
+  border: none;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.tags-selection-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tags-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2563EB;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-toggle-btn {
+  background: #F1F5F9;
+  border: 1px solid transparent;
+  color: #475569;
+  padding: 6px 16px;
+  border-radius: 33px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tag-toggle-btn:hover {
+  background: #E2E8F0;
+}
+
+.tag-toggle-btn.active {
+  background: rgba(37, 99, 235, 0.10);
+  color: #2563EB;
+  border-color: #BFDBFE;
+}
+
+.form-actions-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* --- ELEMENTOS DAS ENTRADAS ANTERIORES --- */
+
+.search-filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: white;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #1A202C;
+}
+
+.search-box input::placeholder {
+  color: #94A3B8;
+}
+
+.filter-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -8px;
+}
+
+.btn-filter {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entries-count {
+  color: #64748B;
+  font-size: 14px;
+}
+
+.entrada-item-bordered {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entrada-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.entrada-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entrada-emoji {
+  font-size: 24px;
+  background: #F8FAFB;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.entrada-date-time {
+  display: flex;
+  flex-direction: column;
+}
+
+.entrada-date {
+  color: #64748B;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.entrada-time {
+  color: #94A3B8;
+  font-size: 12px;
+}
+
+/* --- ESTATÍSTICAS E DICAS --- */
+
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-box {
+  background: #F8FAFB;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.stat-blue { color: #2563EB; }
+.stat-green { color: #10B981; }
+.stat-dark { color: #1A202C; }
+
+.stat-label {
+  color: #64748B;
+  font-size: 13px;
+}
+
+.dicas-card {
+  background: #F0F4FF;
+  border-radius: 8px;
+  border: 1px solid #E0E7FF;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dicas-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dicas-list li::marker {
+  color: #2563EB; 
+}
+
+/* --- SELETOR DE EMOJI --- */
+.emoji-picker-container {
+  position: relative; 
+}
+
+.entrada-emoji.clicavel {
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.entrada-emoji.clicavel:hover {
+  transform: scale(1.1); 
+  background: #E2E8F0;
+}
+
+.emoji-popup {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 140px; 
+  gap: 6px;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10; 
+}
+
+.emoji-option {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.emoji-option:hover {
+  transform: scale(1.2);
+  background-color: #F1F5F9;
+}
+
+/* ================= ESTRUTURA DO MENU DE FILTRO ================= */
+
+.filter-wrapper {
+  position: relative;
+}
+
+.btn-filter {
+  color: #64748B;
+  position: relative;
+  transition: all 0.2s;
+}
+
+
+.btn-filter.ativo {
+  color: #2563EB;
+  border-color: #BFDBFE;
+  background-color: #EFF6FF;
+}
+
+
+.filter-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #EF4444;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px;
+  width: 320px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 20; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.emoji-filter-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 20px;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.emoji-filter-btn:hover {
+  background: #F1F5F9;
+}
+
+.emoji-filter-btn.active {
+  background: #E2E8F0;
+  border-color: #CBD5E1;
+}
+
+.btn-clear-filters {
+  background: none;
+  border: none;
+  color: #EF4444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0 0 0;
+  border-top: 1px dashed #E2E8F0;
+}
+
+.btn-clear-filters:hover {
+  text-decoration: underline;
 }
