@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import '../App.css';
 
 interface Relato {
   id: number;

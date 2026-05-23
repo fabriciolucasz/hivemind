@@ -1,4 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import '../App.css';
 import Logo from "./Logo";
 import DashboardIcon from "./DashboardIcon";
 import DiarioIcon from "./DiarioIcon";
