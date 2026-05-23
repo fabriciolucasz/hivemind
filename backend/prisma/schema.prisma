@@ -13,4 +13,21 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+
+  relatos Relato[]
+}
+
+model Relato {
+  id        String   @id @default(uuid())
+
+  data      String
+  hora      String
+  texto     String
+  tags      String[]
+  emoji     String
+
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
 }
