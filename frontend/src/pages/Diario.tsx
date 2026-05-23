@@ -1,139 +1,389 @@
-import { useState, useMemo, useEffect } from "react";
+import {
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
+
 import '../App.css';
 
+import { useAuth }
+from '../context/AuthContext';
+
+import {
+  listarRelatos,
+  criarRelato,
+} from '../services/diarioService';
+
 interface Relato {
-  id: number;
+  id: string;
   data: string;
   hora: string;
   texto: string;
   tags: string[];
   emoji: string;
+  userId: string;
+  createdAt?: string;
 }
 
 const TAGS_DISPONIVEIS = [
-  "Matemática", "Física", "Tecnologia", "Programação", "Biologia", 
-  "História", "Literatura", "Arte", "Música", "Esportes"
+  'Matemática',
+  'Física',
+  'Tecnologia',
+  'Programação',
+  'Biologia',
+  'História',
+  'Literatura',
+  'Arte',
+  'Música',
+  'Esportes',
 ];
 
-const EMOJIS_DISPONIVEIS = ["📝", "🤩", "🤓", "💡", "🎯", "🚀", "🤔", "🔥", "💻", "📚", "😞", "🙄"];
+const EMOJIS_DISPONIVEIS = [
+  '📝',
+  '🤩',
+  '🤓',
+  '💡',
+  '🎯',
+  '🚀',
+  '🤔',
+  '🔥',
+  '💻',
+  '📚',
+  '😞',
+  '🙄',
+];
 
 export default function Diario() {
-  const [novoTexto, setNovoTexto] = useState("");
-  const [dataSelecionada, setDataSelecionada] = useState(new Date().toISOString().split('T')[0]);
-  const [tagsSelecionadas, setTagsSelecionadas] = useState<string[]>([]);
-  const [termoBusca, setTermoBusca] = useState("");
-  const [emojiAbertoId, setEmojiAbertoId] = useState<number | null>(null);
 
-  // --- NOVOS ESTADOS PARA O FILTRO ---
-  const [filtroAberto, setFiltroAberto] = useState(false);
-  const [filtroTagAtiva, setFiltroTagAtiva] = useState<string | null>(null);
-  const [filtroEmojiAtivo, setFiltroEmojiAtivo] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  const [relatos, setRelatos] = useState<Relato[]>([]);
+  const [novoTexto, setNovoTexto] =
+    useState('');
+
+  const [
+    dataSelecionada,
+    setDataSelecionada,
+  ] = useState(
+    new Date()
+      .toISOString()
+      .split('T')[0]
+  );
+
+  const [
+    tagsSelecionadas,
+    setTagsSelecionadas,
+  ] = useState<string[]>([]);
+
+  const [
+    termoBusca,
+    setTermoBusca,
+  ] = useState('');
+
+  const [
+    emojiAbertoId,
+    setEmojiAbertoId,
+  ] = useState<string | null>(
+    null
+  );
+
+  const [
+    filtroAberto,
+    setFiltroAberto,
+  ] = useState(false);
+
+  const [
+    filtroTagAtiva,
+    setFiltroTagAtiva,
+  ] = useState<string | null>(
+    null
+  );
+
+  const [
+    filtroEmojiAtivo,
+    setFiltroEmojiAtivo,
+  ] = useState<string | null>(
+    null
+  );
+
+  const [relatos, setRelatos] =
+    useState<Relato[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/relatos")
-      .then(resposta => resposta.json())
-      .then(dadosRecebidos => setRelatos(dadosRecebidos))
-      .catch(erro => console.error("Erro ao buscar no servidor:", erro));
-  }, []);
 
-  const toggleTag = (tag: string) => {
-    if (tagsSelecionadas.includes(tag)) {
-      setTagsSelecionadas(tagsSelecionadas.filter(t => t !== tag));
-    } else {
-      setTagsSelecionadas([...tagsSelecionadas, tag]);
+  if (!user?.id) return;
+
+  const userId = user.id;
+
+  async function carregarRelatos() {
+
+    try {
+
+      const dados =
+        await listarRelatos(
+          userId
+        );
+
+      setRelatos(dados);
+
+    } catch (erro) {
+
+      console.error(
+        'Erro ao carregar relatos:',
+        erro
+      );
+
     }
+
+  }
+
+  carregarRelatos();
+
+}, [user]);
+
+  const toggleTag = (
+    tag: string
+  ) => {
+
+    if (
+      tagsSelecionadas.includes(
+        tag
+      )
+    ) {
+
+      setTagsSelecionadas(
+        tagsSelecionadas.filter(
+          (t) => t !== tag
+        )
+      );
+
+    } else {
+
+      setTagsSelecionadas([
+        ...tagsSelecionadas,
+        tag,
+      ]);
+
+    }
+
   };
 
   const salvarRelato = async () => {
-    if (novoTexto.trim() === "") return;
 
-    const [ano, mes, dia] = dataSelecionada.split('-');
-    const dataFormatada = `${dia}/${mes}/${ano}`;
+    if (
+      novoTexto.trim() === ''
+    ) return;
+
+    if (!user?.id) {
+
+      alert(
+        'Usuário não autenticado'
+      );
+
+      return;
+
+    }
+
+    const [ano, mes, dia] =
+      dataSelecionada.split('-');
+
+    const dataFormatada =
+      `${dia}/${mes}/${ano}`;
 
     const dadosParaEnviar = {
       data: dataFormatada,
-      hora: new Date().toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' }),
+
+      hora:
+        new Date().toLocaleTimeString(
+          'pt-BR',
+          {
+            hour: '2-digit',
+            minute:
+              '2-digit',
+          }
+        ),
+
       texto: novoTexto,
-      tags: tagsSelecionadas.length > 0 ? tagsSelecionadas : ["Geral"],
-      emoji: "📝"
+
+      tags:
+        tagsSelecionadas.length >
+        0
+          ? tagsSelecionadas
+          : ['Geral'],
+
+      emoji: '📝',
+
+      userId: user.id,
     };
 
     try {
-      const resposta = await fetch("http://localhost:3000/api/relatos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosParaEnviar)
-      });
-      
-      const relatoSalvo = await resposta.json();
-      setRelatos([relatoSalvo, ...relatos]);
-      setNovoTexto("");
+
+      const relatoSalvo =
+        await criarRelato(
+          dadosParaEnviar
+        );
+
+      setRelatos([
+        relatoSalvo,
+        ...relatos,
+      ]);
+
+      setNovoTexto('');
+
       setTagsSelecionadas([]);
+
     } catch (erro) {
-      console.error("Erro ao salvar:", erro);
-      alert("Erro ao conectar ao backend!");
+
+      console.error(
+        'Erro ao salvar:',
+        erro
+      );
+
+      alert(
+        'Erro ao conectar ao backend!'
+      );
+
     }
+
   };
 
-  const alterarEmoji = (idRelato: number, novoEmoji: string) => {
-    setRelatos(relatos.map(relato => 
-      relato.id === idRelato ? { ...relato, emoji: novoEmoji } : relato
-    ));
-    setEmojiAbertoId(null); 
+  const alterarEmoji = (
+    idRelato: string,
+    novoEmoji: string
+  ) => {
+
+    setRelatos(
+      relatos.map((relato) =>
+        relato.id === idRelato
+          ? {
+              ...relato,
+              emoji: novoEmoji,
+            }
+          : relato
+      )
+    );
+
+    setEmojiAbertoId(null);
+
   };
 
- 
   const limparFiltros = () => {
+
     setFiltroTagAtiva(null);
+
     setFiltroEmojiAtivo(null);
-    setTermoBusca("");
+
+    setTermoBusca('');
+
     setFiltroAberto(false);
+
   };
 
-  // --- FILTRO ---
-  const relatosFiltrados = useMemo(() => {
-    return relatos.filter(relato => {
-      const matchBusca = termoBusca === "" || 
-        relato.texto.toLowerCase().includes(termoBusca.toLowerCase()) ||
-        relato.tags.some(tag => tag.toLowerCase().includes(termoBusca.toLowerCase()));
-      
-      const matchTag = filtroTagAtiva ? relato.tags.includes(filtroTagAtiva) : true;
-      const matchEmoji = filtroEmojiAtivo ? relato.emoji === filtroEmojiAtivo : true;
+  const relatosFiltrados =
+    useMemo(() => {
 
-      return matchBusca && matchTag && matchEmoji;
-    });
-  }, [relatos, termoBusca, filtroTagAtiva, filtroEmojiAtivo]);
+      return relatos.filter(
+        (relato) => {
 
- 
-  const calcularDiasConsecutivos = (listaRelatos: Relato[]) => {
-    if (listaRelatos.length === 0) return 0;
-    
-    // Extrai as datas, converte para milissegundos e remove duplicadas
-    const datasEmMs = [...new Set(listaRelatos.map(r => {
-      const [dia, mes, ano] = r.data.split('/');
-      return new Date(Number(ano), Number(mes) - 1, Number(dia)).getTime();
-    }))].sort((a, b) => b - a); // Ordena da mais recente para a mais antiga
+          const matchBusca =
+            termoBusca === '' ||
+            relato.texto
+              .toLowerCase()
+              .includes(
+                termoBusca.toLowerCase()
+              ) ||
+            relato.tags.some(
+              (tag) =>
+                tag
+                  .toLowerCase()
+                  .includes(
+                    termoBusca.toLowerCase()
+                  )
+            );
 
-    let sequencia = 1;
-    const umDia = 86400000; // Milissegundos em 24h
+          const matchTag =
+            filtroTagAtiva
+              ? relato.tags.includes(
+                  filtroTagAtiva
+                )
+              : true;
 
-    // Conta dias seguidos 
-    for (let i = 0; i < datasEmMs.length - 1; i++) {
-      const diferenca = Math.round((datasEmMs[i] - datasEmMs[i+1]) / umDia);
-      if (diferenca === 1) sequencia++;
-      else break; 
-    }
-    return sequencia;
-  };
+          const matchEmoji =
+            filtroEmojiAtivo
+              ? relato.emoji ===
+                filtroEmojiAtivo
+              : true;
+
+          return (
+            matchBusca &&
+            matchTag &&
+            matchEmoji
+          );
+
+        }
+      );
+
+    }, [
+      relatos,
+      termoBusca,
+      filtroTagAtiva,
+      filtroEmojiAtivo,
+    ]);
+
 
   const totalEntradas = relatos.length;
-  const mesAtualFormatado = `/${new Date().getMonth() + 1 < 10 ? '0' : ''}${new Date().getMonth() + 1}/`;
-  const entradasEsteMes = relatos.filter(r => r.data.includes(mesAtualFormatado)).length;
-  const diasConsecutivos = calcularDiasConsecutivos(relatos);
 
-  return (
+const mesAtualFormatado = `/${
+  new Date().getMonth() + 1 < 10 ? '0' : ''
+}${new Date().getMonth() + 1}/`;
+
+const entradasEsteMes = relatos.filter(r =>
+  r.data.includes(mesAtualFormatado)
+).length;
+
+const calcularDiasConsecutivos = (listaRelatos: Relato[]) => {
+
+  if (listaRelatos.length === 0) return 0;
+
+  const datasEmMs = [
+    ...new Set(
+      listaRelatos.map(r => {
+
+        const [dia, mes, ano] = r.data.split('/');
+
+        return new Date(
+          Number(ano),
+          Number(mes) - 1,
+          Number(dia)
+        ).getTime();
+
+      })
+    )
+  ].sort((a, b) => b - a);
+
+  let sequencia = 1;
+
+  const umDia = 86400000;
+
+  for (let i = 0; i < datasEmMs.length - 1; i++) {
+
+    const diferenca = Math.round(
+      (datasEmMs[i] - datasEmMs[i + 1]) / umDia
+    );
+
+    if (diferenca === 1) {
+      sequencia++;
+    } else {
+      break;
+    }
+  }
+
+  return sequencia;
+};
+
+const diasConsecutivos =
+  calcularDiasConsecutivos(relatos);
+
+   return (
     <div className="page-container">
       <header className="page-header">
         <div className="page-title-row">
