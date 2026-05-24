@@ -1,12 +1,12 @@
 const API_URL =
   'http://localhost:3000/api';
 
-export async function listarRelatos(
+export async function listDailyLogs(
   userId: string
 ) {
 
   const response = await fetch(
-    `${API_URL}/relatos/${userId}`
+    `${API_URL}/daily-logs/${userId}`
   );
 
   if (!response.ok) {
@@ -21,21 +21,21 @@ export async function listarRelatos(
 
 }
 
-interface CriarRelatoData {
-  texto: string;
+interface CreateDailyLogData {
+  text: string;
   tags: string[];
   emoji: string;
-  data: string;
-  hora: string;
+  date: string;
+  time: string;
   userId: string;
 }
 
-export async function criarRelato(
-  data: CriarRelatoData
+export async function createDailyLog(
+  data: CreateDailyLogData
 ) {
 
   const response = await fetch(
-    `${API_URL}/relatos`,
+    `${API_URL}/daily-logs`,
     {
       method: 'POST',
 
