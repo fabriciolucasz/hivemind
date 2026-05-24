@@ -15,6 +15,8 @@ export async function registerService({
   name,
   email,
   password,
+  age,
+  interests,
 }: RegisterRequest) {
 
   const existingUser = await prisma.user.findUnique({
@@ -29,11 +31,26 @@ export async function registerService({
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  const interestsArray = interests
+    ? interests
+        .split(',')
+        .map((i: string) => i.trim())
+        .filter((i: string) => i.length > 0)
+    : [];
+
+  const parsedAge = age ? Number(age) : null;
+
   const user = await prisma.user.create({
     data: {
       name,
       email,
       password: hashedPassword,
+      profile: {
+        create: {
+          age: parsedAge,
+          interests: interestsArray,
+        },
+      },
     },
   });
 

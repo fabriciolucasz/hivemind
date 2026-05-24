@@ -1,11 +1,10 @@
 import { Router } from 'express';
 import authRoutes from './authRoutes';
-import diarioRoutes from './diarioRoutes';
+import dailyLogRoutes from './dailyLogRoutes';
 
 const router = Router();
 
 router.use('/auth', authRoutes);
-
-router.use('/api', diarioRoutes);
+router.use('/api', dailyLogRoutes);
 
 export { router };

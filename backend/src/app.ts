@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
-import diarioRoutes from "./routes/diarioRoutes";
+import dailyLogRoutes from "./routes/dailyLogRoutes";
 
 const app = express();
 
@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRoutes); 
-app.use("/api", diarioRoutes); 
+app.use("/api", dailyLogRoutes); 
 
 app.get("/", (req: Request, res: Response) => {
   return res.json({

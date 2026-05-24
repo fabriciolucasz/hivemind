@@ -2,6 +2,8 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
+  age?: number;
+  interests?: string;
 }
 
 export interface LoginRequest {

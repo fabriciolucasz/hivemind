@@ -12,7 +12,7 @@ export async function register(
 
   try {
 
-    const { name, email, password } = req.body;
+    const { name, email, password, age, interests } = req.body;
 
     if (!name || !email || !password) {
       res.status(400).json({
@@ -26,6 +26,8 @@ export async function register(
       name,
       email,
       password,
+      age,
+      interests,
     });
 
     res.status(201).json(result);
