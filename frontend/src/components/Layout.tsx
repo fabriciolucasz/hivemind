@@ -9,11 +9,18 @@ import MentorIaIcon from "./MentorIaIcon";
 import TesteVocacionalIcon from "./TesteVocacionalIcon";
 import PerfilIcon from "./PerfilIcon";
 import LogoutIcon from "./LogoutIcon";
+import { useAuth } from "../context/AuthContext";
 
 export default function Layout() {
   const navigate = useNavigate(); 
   const location = useLocation(); 
+  const { signOut } = useAuth();
   const path = location.pathname; 
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="layout-container">
@@ -63,7 +70,7 @@ export default function Layout() {
           <button>
             <PerfilIcon /> Perfil
           </button>
-          <button>
+          <button onClick={handleSignOut}>
             <LogoutIcon /> Sair
           </button>
         </div>
