@@ -1,3 +1,5 @@
+import { api } from './api';
+
 const API_URL =
   'http://localhost:3000/api';
 
@@ -58,4 +60,8 @@ export async function createDailyLog(
 
   return response.json();
 
+}
+
+export async function deleteDailyLog(id: string) {
+  await api.delete(`/api/daily-logs/${id}`); 
 }
