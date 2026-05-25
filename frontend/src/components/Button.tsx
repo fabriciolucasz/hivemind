@@ -10,6 +10,7 @@ interface ButtonProps
 export function Button({
   variant = 'primary',
   size = 'md',
+  fullWidth = false,
   className = '',
   children,
   ...props

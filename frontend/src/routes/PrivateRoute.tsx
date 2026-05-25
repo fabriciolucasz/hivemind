@@ -1,5 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { DashboardLayout } from '../components/DashboardLayout';
 
 export function PrivateRoute() {
 
@@ -9,4 +8,6 @@ export function PrivateRoute() {
     ? <Outlet />
     : <Navigate to="/" replace />;
 
+}
+  return <DashboardLayout />;
 }

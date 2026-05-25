@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import dailyLogRoutes from "./routes/dailyLogRoutes";
+import { eventRoutes } from "./routes/eventRoutes";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.get("/", (req: Request, res: Response) => {
     message: "API HiveMind funcionando perfeitamente em TypeScript! 🚀",
   });
 });
+app.use("/auth", authRoutes);
+app.use("/events", eventRoutes);
 
 app.get("/api/teste", (req: Request, res: Response) => {
   return res.json({
