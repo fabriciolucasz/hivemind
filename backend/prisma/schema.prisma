@@ -24,6 +24,9 @@ model Profile {
   age       Int?
   interests String[]
 
+  reminderActive Boolean @default(false) @map("reminder_active")
+  reminderTime   String?  @default("18:00") @map("reminder_time")
+
   userId String @unique @map("user_id")
   user   User   @relation(fields: [userId], references: [id])
 
