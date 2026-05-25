@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../database/prisma';
 import type { LoginRequest, RegisterRequest, TokenPayload } from '../types/auth';
+import nodemailer from "nodemailer";
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'changeme';
 const JWT_EXPIRES_IN = '7d';
@@ -48,3 +49,11 @@ export async function loginService({ email, password }: LoginRequest) {
 function generateToken(payload: TokenPayload) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
+
+export const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
