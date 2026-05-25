@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -12,22 +11,139 @@ model User {
   name      String
   email     String   @unique
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  relatos Relato[]
+  profile Profile?
+
+  @@map("users")
 }
 
-model Relato {
+model Profile {
   id        String   @id @default(uuid())
+  age       Int?
+  interests String[]
 
-  data      String
-  hora      String
-  texto     String
-  tags      String[]
-  emoji     String
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now())
+  dailyLogs       DailyLog[]
+  academicRecords AcademicRecord[]
+  vocationalTests VocationalTest[]
+  events          Event[]
+  recommendations Recommendation[]
 
-  userId String
-  user   User @relation(fields: [userId], references: [id])
+  @@map("profiles")
+}
+
+model DailyLog {
+  id    String   @id @default(uuid())
+  date  String
+  time  String
+  text  String
+  tags  String[]
+  emoji String
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @map("profile_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([profileId])
+  @@map("daily_logs")
+}
+
+model AcademicRecord {
+  id                 String @id @default(uuid())
+  academicDiscipline String @map("academic_discipline")
+  score              Float
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @map("profile_id")
+
+  realizedAt DateTime @default(now()) @map("realized_at") @db.Timestamptz(3)
+
+  @@index([profileId])
+  @@map("academic_records")
+}
+
+model VocationalTest {
+  id         String       @id @default(uuid())
+  name       String
+  result     String
+  realizedAt DateTime     @default(now()) @map("realized_at") @db.Timestamptz(3)
+  answers    TestAnswer[]
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @map("profile_id")
+
+  @@index([profileId])
+  @@map("vocational_tests")
+}
+
+model TestAnswer {
+  id         String @id @default(uuid())
+  questionId String @map("question_id")
+  answer     String
+
+  vocationalTest   VocationalTest @relation(fields: [vocationalTestId], references: [id])
+  vocationalTestId String         @map("vocational_test_id")
+
+  @@index([vocationalTestId])
+  @@map("test_answers")
+}
+
+model Event {
+  id           String             @id @default(uuid())
+  title        String
+  description  String
+  date         DateTime?          @db.Timestamptz(3)
+  location     String?
+  observations ObservationEvent[]
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @map("profile_id")
+
+  @@index([profileId])
+  @@map("events")
+}
+
+model ObservationEvent {
+  id   String @id @default(uuid())
+  text String
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @map("event_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([eventId])
+  @@map("observation_events")
+}
+
+model Recommendation {
+  id      String              @id @default(uuid())
+  reason  String
+  courses RecommendedCourse[]
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String  @map("profile_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([profileId])
+  @@map("recommendations")
+}
+
+model RecommendedCourse {
+  id       String @id @default(uuid())
+  name     String
+  affinity Float?
+
+  recommendation   Recommendation @relation(fields: [recommendationId], references: [id])
+  recommendationId String         @map("recommendation_id")
+
+  @@index([recommendationId])
+  @@map("recommended_courses")
 }

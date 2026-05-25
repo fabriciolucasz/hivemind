@@ -3,8 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import { LoginPage } from '../pages/LoginPage';
 import { SignupPage } from '../pages/SignupPage';
 import Dashboard from '../pages/Dashboard';
-import Diario from '../pages/Diario'; 
-import Layout from '../components/Layout'; 
+import Diario from '../pages/DailyPage';
+import Layout from '../components/Layout';
+import { EventsPage } from '../pages/EventsPage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
@@ -21,11 +22,11 @@ export const router = createBrowserRouter([
   // ================= ROTAS PRIVADAS =================
   {
     // Verifica se o usuário está logado
-    element: <PrivateRoute />, 
+    element: <PrivateRoute />,
     children: [
       {
-        
-        element: <Layout />, 
+
+        element: <Layout />,
         children: [
           {
             path: '/dashboard',
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
             element: <Diario />,
           },
         ],
+      },
+      {
+        path: '/events',
+        element: <EventsPage />,
       },
     ],
   },
