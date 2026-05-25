@@ -1,24 +1,42 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { LoginPage } from '../pages/LoginPage';
-import { Dashboard } from '../pages/Dashboard';
+import { SignupPage } from '../pages/SignupPage';
+import Dashboard from '../pages/Dashboard';
+import Diario from '../pages/DailyPage';
+import Layout from '../components/Layout';
 import { EventsPage } from '../pages/EventsPage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
-  // Rotas públicas
+  // ================= ROTAS PÚBLICAS =================
   {
     path: '/',
     element: <LoginPage />,
   },
-
-  // Rotas privadas
   {
+    path: '/signup',
+    element: <SignupPage />,
+  },
+
+  // ================= ROTAS PRIVADAS =================
+  {
+    // Verifica se o usuário está logado
     element: <PrivateRoute />,
     children: [
       {
-        path: '/dashboard',
-        element: <Dashboard />,
+
+        element: <Layout />,
+        children: [
+          {
+            path: '/dashboard',
+            element: <Dashboard />,
+          },
+          {
+            path: '/diario',
+            element: <Diario />,
+          },
+        ],
       },
       {
         path: '/events',
