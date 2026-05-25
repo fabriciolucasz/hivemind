@@ -96,13 +96,20 @@ model TestAnswer {
 model Event {
   id           String             @id @default(uuid())
   title        String
-  description  String
+  description  String?
   date         DateTime?          @db.Timestamptz(3)
   location     String?
+  type         String             @default("other")
+  isAttending  Boolean            @default(false) @map("is_attending")
+  notes        String?
+  rating       Int?
   observations ObservationEvent[]
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@index([profileId])
   @@map("events")
