@@ -5,6 +5,7 @@ import { Dashboard } from '../pages/Dashboard';
 
 import { ForgotPassword } from '../pages/ForgotPassword';
 import { ResetPassword } from '../pages/ResetPassword';
+import { ProfilePage } from '../pages/ProfilePage';
 
 import { PrivateRoute } from './PrivateRoute';
 
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <Dashboard />,
       },
+      {
+  path: '/profile',
+  element: <ProfilePage />,
+},
     ],
   },
 ]);
