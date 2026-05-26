@@ -55,13 +55,19 @@ export default function Layout() {
           <button className={path === "/evolucao" ? "ativo" : ""}>
             <EvolucaoIcon /> Evolução de Desempenho
           </button>
-          <button className={path === "/eventos" ? "ativo" : ""}>
+          <button 
+            className={path === "/eventos" ? "ativo" : ""}
+            onClick={() => navigate("/eventos")}
+          >
             <EventosIcon /> Eventos
           </button>
           <button className={path === "/mentor" ? "ativo" : ""}>
             <MentorIaIcon /> Mentor IA
           </button>
-          <button className={path === "/teste" ? "ativo" : ""}>
+          <button 
+            className={path === "/teste" ? "ativo" : ""}
+            onClick={() => navigate("/teste")}
+          >
             <TesteVocacionalIcon /> Teste Vocacional
           </button>
         </nav>

@@ -374,10 +374,23 @@ export function EventsPage() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
-            <Card title="Proximos Eventos" icon={<Calendar className="h-5 w-5" />}>
+            <Card
+              title="Proximos Eventos"
+              icon={<Calendar className="h-5 w-5" />}
+              className="min-h-[420px]"
+            >
               <EventList
                 events={visibleUpcomingEvents}
                 emptyText={isLoading ? 'Carregando eventos...' : 'Nenhum evento futuro cadastrado.'}
+                emptyIcon={<Calendar className="h-10 w-10 text-primary" />}
+                emptyTitle="Nenhum evento futuro cadastrado"
+                emptyDescription="Adicione eventos vocacionais, palestras, feiras e atividades para acompanhar sua agenda."
+                emptyAction={
+                  <Button size="sm" onClick={openCreateModal}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Adicionar Evento
+                  </Button>
+                }
                 onSelect={setSelectedEvent}
                 onEdit={openEditModal}
                 onDelete={handleDeleteEvent}
@@ -394,10 +407,17 @@ export function EventsPage() {
               )}
             </Card>
 
-            <Card title="Eventos Anteriores" icon={<Star className="h-5 w-5" />}>
+            <Card
+              title="Eventos Anteriores"
+              icon={<Star className="h-5 w-5" />}
+              className="min-h-[420px]"
+            >
               <EventList
                 events={visiblePastEvents}
                 emptyText={isLoading ? 'Carregando eventos...' : 'Nenhum evento anterior encontrado.'}
+                emptyIcon={<Star className="h-10 w-10 text-purple-600" />}
+                emptyTitle="Nenhum evento anterior encontrado"
+                emptyDescription="Quando seus eventos forem concluídos, eles aparecerão aqui com observações e avaliações."
                 past
                 onSelect={setSelectedEvent}
                 onEdit={openEditModal}
@@ -756,6 +776,10 @@ function PaginationControls({
 interface EventListProps {
   events: EventType[];
   emptyText: string;
+  emptyIcon?: ReactNode;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  emptyAction?: ReactNode;
   past?: boolean;
   onSelect: (event: EventType) => void;
   onEdit: (event: EventType) => void;
@@ -766,6 +790,10 @@ interface EventListProps {
 function EventList({
   events,
   emptyText,
+  emptyIcon,
+  emptyTitle,
+  emptyDescription,
+  emptyAction,
   past = false,
   onSelect,
   onEdit,
@@ -774,8 +802,26 @@ function EventList({
 }: EventListProps) {
   if (!events.length) {
     return (
-      <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-        {emptyText}
+      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-lg border border-dashed border-border p-8 text-center">
+        {emptyIcon && (
+          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            {emptyIcon}
+          </div>
+        )}
+        <h3 className="mb-2 text-lg text-foreground">
+          {emptyTitle || emptyText}
+        </h3>
+        {emptyDescription && (
+          <p className="mb-5 max-w-md text-sm leading-relaxed text-muted-foreground">
+            {emptyDescription}
+          </p>
+        )}
+        {!emptyDescription && (
+          <p className="text-sm text-muted-foreground">
+            {emptyText}
+          </p>
+        )}
+        {emptyAction}
       </div>
     );
   }

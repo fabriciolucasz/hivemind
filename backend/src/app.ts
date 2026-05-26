@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import dailyLogRoutes from "./routes/dailyLogRoutes";
 import { eventRoutes } from "./routes/eventRoutes";
+import vocationalTestRoutes from "./routes/vocationalTestRoutes";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes); 
 app.use("/api", dailyLogRoutes); 
+app.use("/api", vocationalTestRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   return res.json({
