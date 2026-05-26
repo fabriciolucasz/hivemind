@@ -19,6 +19,7 @@ import {
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
+import { useAuth } from '../context/AuthContext';
 import {
   createEvent,
   deleteEvent,
@@ -27,7 +28,6 @@ import {
 } from '../services/eventService';
 import type { EventCategory, EventType } from '../types/event';
 
-const userId = '123';
 const eventsPageSize = 6;
 
 const initialForm = {
@@ -133,6 +133,8 @@ function getCalendarDays(month: Date) {
 }
 
 export function EventsPage() {
+  const { user } = useAuth();
+  const userId = user?.id;
   const [events, setEvents] = useState<EventType[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showEventModal, setShowEventModal] = useState(false);
@@ -148,6 +150,10 @@ export function EventsPage() {
   const [pageError, setPageError] = useState('');
 
   async function loadEvents() {
+    if (!userId) {
+      return;
+    }
+
     try {
       setPageError('');
       const data = await getEvents(userId);
@@ -162,7 +168,7 @@ export function EventsPage() {
 
   useEffect(() => {
     loadEvents();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -256,6 +262,11 @@ export function EventsPage() {
   }
 
   async function handleSubmitEvent() {
+    if (!userId) {
+      setFormError('Faca login para cadastrar um evento.');
+      return;
+    }
+
     if (!formData.title.trim() || !formData.date) {
       setFormError('Informe pelo menos o titulo e a data do evento.');
       return;
@@ -294,6 +305,11 @@ export function EventsPage() {
   }
 
   async function handleDeleteEvent(eventId: string) {
+    if (!userId) {
+      setPageError('Faca login para excluir um evento.');
+      return;
+    }
+
     try {
       await deleteEvent(eventId, userId);
       setSelectedEvent((event) => (event?.id === eventId ? null : event));
@@ -305,6 +321,11 @@ export function EventsPage() {
   }
 
   async function handleToggleAttending(event: EventType) {
+    if (!userId) {
+      setPageError('Faca login para atualizar um evento.');
+      return;
+    }
+
     try {
       await updateEvent(event.id, userId, {
         isAttending: !(event.isAttending ?? false),
