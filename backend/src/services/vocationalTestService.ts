@@ -7,12 +7,44 @@ import type {
 } from '../models/vocationalTestModel';
 
 const vocationalAreas = [
-  { area: 'logical', label: 'Raciocinio logico e tecnologia' },
-  { area: 'creative', label: 'Criatividade e expressao' },
-  { area: 'social', label: 'Humanas e cuidado com pessoas' },
-  { area: 'scientific', label: 'Ciencias e investigacao' },
-  { area: 'practical', label: 'Acao pratica e performance' },
+  { area: 'relational', label: 'Perfil relacional e acolhedor' },
+  { area: 'analytical', label: 'Perfil analítico e investigativo' },
+  { area: 'practical', label: 'Perfil prático e operacional' },
+  { area: 'organized', label: 'Perfil organizado e previsivel' },
 ];
+
+const questionAreaMap: Record<string, string> = {
+  '0': 'relational',
+  '1': 'analytical',
+  '2': 'practical',
+  '3': 'relational',
+  '4': 'organized',
+  '5': 'practical',
+  '6': 'relational',
+  '7': 'analytical',
+  '8': 'practical',
+  '9': 'relational',
+  '10': 'analytical',
+  '11': 'practical',
+  '12': 'relational',
+  '13': 'analytical',
+  '14': 'practical',
+  '15': 'relational',
+  '16': 'analytical',
+  '17': 'practical',
+  '18': 'relational',
+  '19': 'analytical',
+  '20': 'practical',
+  '21': 'relational',
+  '22': 'analytical',
+  '23': 'practical',
+  '24': 'relational',
+  '25': 'analytical',
+  '26': 'organized',
+  '27': 'relational',
+  '28': 'analytical',
+  '29': 'practical',
+};
 
 function calculateResult(
   answers: VocationalTestAnswerInput[]
@@ -23,21 +55,26 @@ function calculateResult(
   }, {});
 
   answers.forEach((answer) => {
-    const area = vocationalAreas[answer.answer];
+    const area = questionAreaMap[answer.questionId];
 
     if (area) {
-      totals[area.area] += 1;
+      totals[area] += answer.answer;
     }
   });
 
-  const maxScore = Math.max(answers.length, 1);
-
   const scores: VocationalAreaScore[] = vocationalAreas
-    .map((area) => ({
-      ...area,
-      score: totals[area.area],
-      percentage: Math.round((totals[area.area] / maxScore) * 100),
-    }))
+    .map((area) => {
+      const areaQuestionCount = Object.values(questionAreaMap).filter(
+        (mappedArea) => mappedArea === area.area
+      ).length;
+      const maxScore = Math.max(areaQuestionCount * 5, 1);
+
+      return {
+        ...area,
+        score: totals[area.area],
+        percentage: Math.round((totals[area.area] / maxScore) * 100),
+      };
+    })
     .sort((a, b) => b.score - a.score);
 
   const primary = scores[0];
