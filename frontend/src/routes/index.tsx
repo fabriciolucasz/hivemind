@@ -6,6 +6,7 @@ import Dashboard from '../pages/Dashboard';
 import Diario from '../pages/DailyPage';
 import Layout from '../components/Layout';
 import { EventsPage } from '../pages/EventsPage';
+import { VocationalTestPage } from '../pages/VocationalTestPage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
@@ -36,11 +37,19 @@ export const router = createBrowserRouter([
             path: '/diario',
             element: <Diario />,
           },
+          {
+            path: '/eventos',
+            element: <EventsPage />,
+          },
+          {
+            path: '/events',
+            element: <EventsPage />,
+          },
+          {
+            path: '/teste',
+            element: <VocationalTestPage />,
+          },
         ],
-      },
-      {
-        path: '/events',
-        element: <EventsPage />,
       },
     ],
   },

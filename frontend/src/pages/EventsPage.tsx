@@ -19,6 +19,7 @@ import {
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
+import { useAuth } from '../context/AuthContext';
 import {
   createEvent,
   deleteEvent,
@@ -27,7 +28,6 @@ import {
 } from '../services/eventService';
 import type { EventCategory, EventType } from '../types/event';
 
-const userId = '123';
 const eventsPageSize = 6;
 
 const initialForm = {
@@ -133,6 +133,8 @@ function getCalendarDays(month: Date) {
 }
 
 export function EventsPage() {
+  const { user } = useAuth();
+  const userId = user?.id;
   const [events, setEvents] = useState<EventType[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showEventModal, setShowEventModal] = useState(false);
@@ -148,13 +150,17 @@ export function EventsPage() {
   const [pageError, setPageError] = useState('');
 
   async function loadEvents() {
+    if (!userId) {
+      return;
+    }
+
     try {
       setPageError('');
       const data = await getEvents(userId);
       setEvents(data);
     } catch (error) {
       console.error(error);
-      setPageError('Nao foi possivel carregar os eventos.');
+      setPageError('Não foi possível carregar os eventos.');
     } finally {
       setIsLoading(false);
     }
@@ -162,7 +168,7 @@ export function EventsPage() {
 
   useEffect(() => {
     loadEvents();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -256,8 +262,13 @@ export function EventsPage() {
   }
 
   async function handleSubmitEvent() {
+    if (!userId) {
+      setFormError('Faça login para cadastrar um evento.');
+      return;
+    }
+
     if (!formData.title.trim() || !formData.date) {
-      setFormError('Informe pelo menos o titulo e a data do evento.');
+      setFormError('Informe pelo menos o título e a data do evento.');
       return;
     }
 
@@ -287,24 +298,34 @@ export function EventsPage() {
       setFormData(initialForm);
     } catch (error) {
       console.error(error);
-      setFormError('Nao foi possivel salvar o evento. Confira os dados e tente novamente.');
+      setFormError('Não foi possível salvar o evento. Confira os dados e tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
   }
 
   async function handleDeleteEvent(eventId: string) {
+    if (!userId) {
+      setPageError('Faça login para excluir um evento.');
+      return;
+    }
+
     try {
       await deleteEvent(eventId, userId);
       setSelectedEvent((event) => (event?.id === eventId ? null : event));
       await loadEvents();
     } catch (error) {
       console.error(error);
-      setPageError('Nao foi possivel excluir o evento.');
+      setPageError('Não foi possível excluir o evento.');
     }
   }
 
   async function handleToggleAttending(event: EventType) {
+    if (!userId) {
+      setPageError('Faça login para atualizar um evento.');
+      return;
+    }
+
     try {
       await updateEvent(event.id, userId, {
         isAttending: !(event.isAttending ?? false),
@@ -312,7 +333,7 @@ export function EventsPage() {
       await loadEvents();
     } catch (error) {
       console.error(error);
-      setPageError('Nao foi possivel atualizar a presenca.');
+      setPageError('Não foi possível atualizar a presença.');
     }
   }
 
@@ -356,7 +377,7 @@ export function EventsPage() {
             icon={<Calendar className="h-6 w-6 text-primary" />}
             iconClassName="bg-primary/20"
             value={upcomingEvents.length}
-            label="Proximos Eventos"
+            label="Próximos Eventos"
           />
           <StatCard
             icon={<Star className="h-6 w-6 text-purple-600" />}
@@ -374,10 +395,23 @@ export function EventsPage() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
-            <Card title="Proximos Eventos" icon={<Calendar className="h-5 w-5" />}>
+            <Card
+              title="Próximos Eventos"
+              icon={<Calendar className="h-5 w-5" />}
+              className="min-h-[420px]"
+            >
               <EventList
                 events={visibleUpcomingEvents}
                 emptyText={isLoading ? 'Carregando eventos...' : 'Nenhum evento futuro cadastrado.'}
+                emptyIcon={<Calendar className="h-10 w-10 text-primary" />}
+                emptyTitle="Nenhum evento futuro cadastrado"
+                emptyDescription="Adicione eventos vocacionais, palestras, feiras e atividades para acompanhar sua agenda."
+                emptyAction={
+                  <Button size="sm" onClick={openCreateModal}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Adicionar Evento
+                  </Button>
+                }
                 onSelect={setSelectedEvent}
                 onEdit={openEditModal}
                 onDelete={handleDeleteEvent}
@@ -394,10 +428,17 @@ export function EventsPage() {
               )}
             </Card>
 
-            <Card title="Eventos Anteriores" icon={<Star className="h-5 w-5" />}>
+            <Card
+              title="Eventos Anteriores"
+              icon={<Star className="h-5 w-5" />}
+              className="min-h-[420px]"
+            >
               <EventList
                 events={visiblePastEvents}
                 emptyText={isLoading ? 'Carregando eventos...' : 'Nenhum evento anterior encontrado.'}
+                emptyIcon={<Star className="h-10 w-10 text-purple-600" />}
+                emptyTitle="Nenhum evento anterior encontrado"
+                emptyDescription="Quando seus eventos forem concluídos, eles aparecerão aqui com observações e avaliações."
                 past
                 onSelect={setSelectedEvent}
                 onEdit={openEditModal}
@@ -507,9 +548,9 @@ export function EventsPage() {
 
             <Card title="💡 Lembretes" className="border-primary/20 bg-primary/5">
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>📝 Registre observacoes apos cada evento.</li>
+                <li>📝 Registre observações após cada evento.</li>
                 <li>⭐ Avalie eventos passados com estrelas.</li>
-                <li>✅ Confirme presenca em eventos de interesse.</li>
+                <li>✅ Confirme presença em eventos de interesse.</li>
               </ul>
             </Card>
           </aside>
@@ -552,8 +593,8 @@ export function EventsPage() {
               )}
 
               <Input
-                label="Titulo do Evento"
-                placeholder="Ex: Feira de Profissoes"
+                label="Título do Evento"
+                placeholder="Ex: Feira de Profissões"
                 value={formData.title}
                 onChange={(event) => setFormData({ ...formData, title: event.target.value })}
               />
@@ -566,7 +607,7 @@ export function EventsPage() {
                   onChange={(event) => setFormData({ ...formData, date: event.target.value })}
                 />
                 <Input
-                  label="Horario"
+                  label="Horário"
                   type="time"
                   value={formData.time}
                   onChange={(event) => setFormData({ ...formData, time: event.target.value })}
@@ -609,13 +650,13 @@ export function EventsPage() {
                     }
                     className="h-4 w-4 rounded border-input"
                   />
-                  Confirmar participacao neste evento
+                  Confirmar participação neste evento
                 </label>
               )}
 
               <div>
                 <label className="mb-2 block text-sm text-foreground">
-                  Descricao
+                  Descrição
                 </label>
                 <textarea
                   className="w-full resize-none rounded-lg border border-input bg-input-background px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring"
@@ -631,12 +672,12 @@ export function EventsPage() {
               <div className="grid gap-4 sm:grid-cols-[1fr_180px]">
                 <div>
                   <label className="mb-2 block text-sm text-foreground">
-                    Observacoes
+                    Observações
                   </label>
                   <textarea
                     className="w-full resize-none rounded-lg border border-input bg-input-background px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring"
                     rows={3}
-                    placeholder="Registre aprendizados e impressoes..."
+                    placeholder="Registre aprendizados e impressões..."
                     value={formData.notes}
                     onChange={(event) =>
                       setFormData({ ...formData, notes: event.target.value })
@@ -646,7 +687,7 @@ export function EventsPage() {
 
                 <div>
                   <label className="mb-2 block text-sm text-foreground">
-                    Avaliacao
+                    Avaliação
                   </label>
                   <div className="flex h-[76px] items-center gap-1 rounded-lg border border-input bg-input-background px-3">
                     {[1, 2, 3, 4, 5].map((rating) => (
@@ -678,7 +719,7 @@ export function EventsPage() {
                   {isSubmitting
                     ? 'Salvando...'
                     : editingEvent
-                      ? 'Salvar Alteracoes'
+                      ? 'Salvar Alterações'
                       : 'Adicionar Evento'}
                 </Button>
               </div>
@@ -729,7 +770,7 @@ function PaginationControls({
   return (
     <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
       <span className="text-sm text-muted-foreground">
-        Pagina {page + 1} de {maxPage + 1}
+        Página {page + 1} de {maxPage + 1}
       </span>
       <div className="flex gap-2">
         <Button
@@ -738,7 +779,7 @@ function PaginationControls({
           disabled={page === 0}
           onClick={onPrevious}
         >
-          Voltar Pagina
+          Voltar Página
         </Button>
         <Button
           size="sm"
@@ -746,7 +787,7 @@ function PaginationControls({
           disabled={page >= maxPage}
           onClick={onNext}
         >
-          Proxima Pagina
+          Próxima Página
         </Button>
       </div>
     </div>
@@ -756,6 +797,10 @@ function PaginationControls({
 interface EventListProps {
   events: EventType[];
   emptyText: string;
+  emptyIcon?: ReactNode;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  emptyAction?: ReactNode;
   past?: boolean;
   onSelect: (event: EventType) => void;
   onEdit: (event: EventType) => void;
@@ -766,6 +811,10 @@ interface EventListProps {
 function EventList({
   events,
   emptyText,
+  emptyIcon,
+  emptyTitle,
+  emptyDescription,
+  emptyAction,
   past = false,
   onSelect,
   onEdit,
@@ -774,8 +823,26 @@ function EventList({
 }: EventListProps) {
   if (!events.length) {
     return (
-      <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-        {emptyText}
+      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-lg border border-dashed border-border p-8 text-center">
+        {emptyIcon && (
+          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            {emptyIcon}
+          </div>
+        )}
+        <h3 className="mb-2 text-lg text-foreground">
+          {emptyTitle || emptyText}
+        </h3>
+        {emptyDescription && (
+          <p className="mb-5 max-w-md text-sm leading-relaxed text-muted-foreground">
+            {emptyDescription}
+          </p>
+        )}
+        {!emptyDescription && (
+          <p className="text-sm text-muted-foreground">
+            {emptyText}
+          </p>
+        )}
+        {emptyAction}
       </div>
     );
   }
@@ -818,7 +885,7 @@ function EventList({
                 <p className="mb-3 text-sm opacity-80">
                   {event.description
                     ? truncateText(event.description)
-                    : 'Sem descricao cadastrada.'}
+                    : 'Sem descrição cadastrada.'}
                 </p>
 
                 <div className="mb-3 flex flex-wrap gap-4 text-sm">
@@ -935,27 +1002,27 @@ function EventDetailModal({
         <div className="space-y-5">
           <div className="grid gap-3 text-sm sm:grid-cols-3">
             <DetailItem icon={<Calendar className="h-4 w-4" />} label="Data" value={formatDate(event.date)} />
-            <DetailItem icon={<Clock className="h-4 w-4" />} label="Horario" value={formatTime(event.date)} />
-            <DetailItem icon={<MapPin className="h-4 w-4" />} label="Local" value={event.location || 'Nao informado'} />
+            <DetailItem icon={<Clock className="h-4 w-4" />} label="Horário" value={formatTime(event.date)} />
+            <DetailItem icon={<MapPin className="h-4 w-4" />} label="Local" value={event.location || 'Não informado'} />
           </div>
 
           <div>
-            <h3 className="mb-2 text-base">Descricao</h3>
+            <h3 className="mb-2 text-base">Descrição</h3>
             <p className="rounded-lg border border-border bg-accent/30 p-4 text-sm text-muted-foreground">
-              {event.description || 'Sem descricao cadastrada.'}
+              {event.description || 'Sem descrição cadastrada.'}
             </p>
           </div>
 
           <div>
-            <h3 className="mb-2 text-base">Observacoes</h3>
+            <h3 className="mb-2 text-base">Observações</h3>
             <p className="rounded-lg border border-border bg-accent/30 p-4 text-sm text-muted-foreground">
-              {event.notes || 'Sem observacoes cadastradas.'}
+              {event.notes || 'Sem observações cadastradas.'}
             </p>
           </div>
 
           {!!event.rating && (
             <div>
-              <h3 className="mb-2 text-base">Avaliacao</h3>
+              <h3 className="mb-2 text-base">Avaliação</h3>
               <RatingStars rating={event.rating} />
             </div>
           )}

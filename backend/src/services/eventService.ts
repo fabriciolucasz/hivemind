@@ -14,10 +14,24 @@ interface CreateEventRequest {
 
 type UpdateEventRequest = Partial<Omit<CreateEventRequest, 'userId'>>;
 
+async function findProfileByUserId(userId: string) {
+  const profile = await prisma.profile.findUnique({
+    where: { userId },
+  });
+
+  if (!profile) {
+    throw new Error('Perfil nao encontrado');
+  }
+
+  return profile;
+}
+
 export async function createEventService(data: CreateEventRequest) {
   if (!data.title || !data.date || !data.userId) {
     throw new Error('Titulo, data e usuario sao obrigatorios');
   }
+
+  const profile = await findProfileByUserId(data.userId);
 
   return prisma.event.create({
     data: {
@@ -29,7 +43,7 @@ export async function createEventService(data: CreateEventRequest) {
       isAttending: data.isAttending ?? false,
       notes: data.notes,
       rating: data.rating,
-      userId: data.userId,
+      profileId: profile.id,
     },
   });
 }
@@ -40,7 +54,11 @@ export async function getEventsService(userId: string) {
   }
 
   return prisma.event.findMany({
-    where: { userId },
+    where: {
+      profile: {
+        userId,
+      },
+    },
     orderBy: { date: 'asc' },
   });
 }
@@ -51,7 +69,12 @@ export async function updateEventService(
   data: UpdateEventRequest,
 ) {
   const event = await prisma.event.findFirst({
-    where: { id, userId },
+    where: {
+      id,
+      profile: {
+        userId,
+      },
+    },
   });
 
   if (!event) {
@@ -75,7 +98,12 @@ export async function updateEventService(
 
 export async function deleteEventService(id: string, userId: string) {
   const event = await prisma.event.findFirst({
-    where: { id, userId },
+    where: {
+      id,
+      profile: {
+        userId,
+      },
+    },
   });
 
   if (!event) {
