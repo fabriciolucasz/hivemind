@@ -54,14 +54,19 @@ model DailyLog {
 }
 
 model AcademicRecord {
-  id                 String @id @default(uuid())
-  academicDiscipline String @map("academic_discipline")
+  id                 String  @id @default(uuid())
+  activity           String  @default("Atividade")
+  academicDiscipline String  @map("academic_discipline")
   score              Float
+  maxScore           Float   @default(10) @map("max_score")
+  type               String  @default("test")
+  notes              String?
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
 
   realizedAt DateTime @default(now()) @map("realized_at") @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@index([profileId])
   @@map("academic_records")

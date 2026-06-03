@@ -7,6 +7,7 @@ import Diario from '../pages/DailyPage';
 import Layout from '../components/Layout';
 import { EventsPage } from '../pages/EventsPage';
 import { VocationalTestPage } from '../pages/VocationalTestPage';
+import { PerformancePage } from '../pages/PerformancePage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
           {
             path: '/teste',
             element: <VocationalTestPage />,
+          },
+          {
+            path: '/evolucao',
+            element: <PerformancePage />,
           },
         ],
       },
