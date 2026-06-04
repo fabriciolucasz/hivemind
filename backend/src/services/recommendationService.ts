@@ -1,12 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import 'dotenv/config';
 import Groq from 'groq-sdk';
 import { HfInference } from '@huggingface/inference';
-
-const prisma = new PrismaClient();
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-// Inicialização do HuggingFace (gratuito) para embeddings
-// Se a chave não for fornecida, ele ainda consegue fazer algumas requisições anônimas.
-const hf = new HfInference(process.env.HF_API_KEY);
+import { prisma } from '../database/prisma';
 
 // Formato JSON esperado (Congelado para evitar mutações acidentais ou propositais no código)
 const EXPECTED_JSON_FORMAT = Object.freeze({
@@ -22,6 +17,9 @@ const EXPECTED_JSON_FORMAT = Object.freeze({
 
 export class RecommendationService {
   async generateRecommendation(userId: string) {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    const hf = new HfInference(process.env.HF_API_KEY);
+
     // 1. Get user profile
     const profile = await prisma.profile.findUnique({
       where: { userId },
@@ -59,13 +57,14 @@ export class RecommendationService {
       });
       
       const queryEmbedding = queryEmbeddingResponse as number[];
+      const queryEmbeddingString = JSON.stringify(queryEmbedding);
 
       // Busca os 10 relatos mais relevantes do diário deste perfil
       const similarLogs = await prisma.$queryRaw<{ text: string, date: string }[]>`
         SELECT text, date 
         FROM daily_logs 
         WHERE profile_id = ${profile.id}
-        ORDER BY embedding <-> ${queryEmbedding}::vector 
+        ORDER BY embedding <-> ${queryEmbeddingString}::vector 
         LIMIT 10
       `;
 

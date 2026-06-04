@@ -49,7 +49,7 @@ model DailyLog {
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
 
-  embedding Unsupported("vector(1536)")?
+  embedding Unsupported("vector(384)")?
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 

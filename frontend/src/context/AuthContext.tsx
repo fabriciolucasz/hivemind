@@ -39,53 +39,39 @@ export function AuthProvider({
     useState<User | null>(null);
 
   useEffect(() => {
-
-    const storedUser =
-      localStorage.getItem(
-        '@hivemind:user'
-      );
+    const storedUser = localStorage.getItem('@hivemind:user');
+    const storedTimestamp = localStorage.getItem('@hivemind:session_timestamp');
 
     if (storedUser) {
+      const isExpired = storedTimestamp 
+        ? (Date.now() - parseInt(storedTimestamp, 10)) > 24 * 60 * 60 * 1000
+        : false;
 
-      setUser(
-        JSON.parse(storedUser)
-      );
-
+      if (isExpired) {
+        localStorage.removeItem('@hivemind:token');
+        localStorage.removeItem('@hivemind:user');
+        localStorage.removeItem('@hivemind:session_timestamp');
+        setUser(null);
+      } else {
+        setUser(JSON.parse(storedUser));
+      }
     }
-
   }, []);
 
-  const signIn = (
-    token: string,
-    userData: User
-  ) => {
-
-    localStorage.setItem(
-      '@hivemind:token',
-      token
-    );
-
-    localStorage.setItem(
-      '@hivemind:user',
-      JSON.stringify(userData)
-    );
+  const signIn = (token: string, userData: User) => {
+    localStorage.setItem('@hivemind:token', token);
+    localStorage.setItem('@hivemind:user', JSON.stringify(userData));
+    localStorage.setItem('@hivemind:session_timestamp', Date.now().toString());
 
     setUser(userData);
-
   };
 
   const signOut = () => {
-
-    localStorage.removeItem(
-      '@hivemind:token'
-    );
-
-    localStorage.removeItem(
-      '@hivemind:user'
-    );
+    localStorage.removeItem('@hivemind:token');
+    localStorage.removeItem('@hivemind:user');
+    localStorage.removeItem('@hivemind:session_timestamp');
 
     setUser(null);
-
   };
 
   return (
