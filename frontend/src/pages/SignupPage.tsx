@@ -14,9 +14,11 @@ import {
 } from 'lucide-react';
 
 import { register } from '../services/authServices';
+import { useAuth } from '../context/AuthContext';
 
 export function SignupPage() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const [step, setStep] = useState(1);
 
@@ -86,8 +88,7 @@ const handleStep2Submit = async (
   e.preventDefault();
 
   try {
-
-    await register({
+    const response = await register({
       name: formData.name,
       email: formData.email,
       password: formData.password,
@@ -96,7 +97,8 @@ const handleStep2Submit = async (
       interests: formData.interests,
     });
 
-    navigate('/');
+    signIn(response.token, response.user);
+    navigate('/dashboard');
 
   } catch (error: any) {
 
