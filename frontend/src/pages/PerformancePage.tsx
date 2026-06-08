@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import {
@@ -20,11 +20,8 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import { useAuth } from '../context/AuthContext';
-import {
-  createAcademicRecord,
-  deleteAcademicRecord,
-  listAcademicRecords,
-} from '../services/academicRecordService';
+import { useToast } from '../context/ToastContext';
+import { useAcademicRecords } from '../hooks/useAcademicRecords';
 import type {
   AcademicRecord,
   AcademicRecordType,
@@ -69,37 +66,21 @@ function formatDate(date: string) {
 
 export function PerformancePage() {
   const { user } = useAuth();
+  const { showSuccess } = useToast();
   const userId = user?.id;
-  const [records, setRecords] = useState<AcademicRecord[]>([]);
+  const {
+    records,
+    isLoading,
+    error: pageError,
+    setError: setPageError,
+    addRecord,
+    removeRecord,
+  } = useAcademicRecords(userId);
   const [showAddForm, setShowAddForm] = useState(false);
   const [filterSubject, setFilterSubject] = useState('all');
   const [formData, setFormData] = useState(initialForm);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pageError, setPageError] = useState('');
   const [formError, setFormError] = useState('');
-
-  async function loadRecords() {
-    if (!userId) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      setPageError('');
-      const data = await listAcademicRecords(userId);
-      setRecords(data);
-    } catch (error) {
-      console.error(error);
-      setPageError('Não foi possível carregar os registros de desempenho.');
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadRecords();
-  }, [userId]);
 
   const subjects = useMemo(
     () => Array.from(new Set(records.map((record) => record.subject))).sort(),
@@ -190,10 +171,10 @@ export function PerformancePage() {
       setIsSubmitting(true);
       setFormError('');
 
-      const savedRecord = await createAcademicRecord(payload);
-      setRecords((currentRecords) => [savedRecord, ...currentRecords]);
+      await addRecord(payload);
       setShowAddForm(false);
       setFormData(initialForm);
+      showSuccess('Desempenho salvo com sucesso.');
     } catch (error) {
       console.error(error);
       setFormError('Não foi possível salvar o desempenho.');
@@ -209,10 +190,8 @@ export function PerformancePage() {
     }
 
     try {
-      await deleteAcademicRecord(recordId, userId);
-      setRecords((currentRecords) =>
-        currentRecords.filter((record) => record.id !== recordId)
-      );
+      await removeRecord(recordId);
+      showSuccess('Registro excluído com sucesso.');
     } catch (error) {
       console.error(error);
       setPageError('Não foi possível excluir o registro.');

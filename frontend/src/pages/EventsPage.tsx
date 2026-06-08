@@ -20,12 +20,8 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import { useAuth } from '../context/AuthContext';
-import {
-  createEvent,
-  deleteEvent,
-  getEvents,
-  updateEvent,
-} from '../services/eventService';
+import { useToast } from '../context/ToastContext';
+import { useEvents } from '../hooks/useEvents';
 import type { EventCategory, EventType } from '../types/event';
 
 const eventsPageSize = 6;
@@ -134,8 +130,17 @@ function getCalendarDays(month: Date) {
 
 export function EventsPage() {
   const { user } = useAuth();
+  const { showSuccess } = useToast();
   const userId = user?.id;
-  const [events, setEvents] = useState<EventType[]>([]);
+  const {
+    events,
+    isLoading,
+    error: pageError,
+    setError: setPageError,
+    addEvent,
+    editEvent,
+    removeEvent,
+  } = useEvents(userId);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
@@ -144,31 +149,8 @@ export function EventsPage() {
   const [pastPage, setPastPage] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [formData, setFormData] = useState(initialForm);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
-  const [pageError, setPageError] = useState('');
-
-  async function loadEvents() {
-    if (!userId) {
-      return;
-    }
-
-    try {
-      setPageError('');
-      const data = await getEvents(userId);
-      setEvents(data);
-    } catch (error) {
-      console.error(error);
-      setPageError('Não foi possível carregar os eventos.');
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadEvents();
-  }, [userId]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -288,14 +270,14 @@ export function EventsPage() {
       };
 
       if (editingEvent) {
-        await updateEvent(editingEvent.id, userId, payload);
+        await editEvent(editingEvent.id, payload);
       } else {
-        await createEvent({ ...payload, userId });
+        await addEvent({ ...payload, userId });
       }
 
-      await loadEvents();
       closeEventModal();
       setFormData(initialForm);
+      showSuccess('Evento salvo com sucesso.');
     } catch (error) {
       console.error(error);
       setFormError('Não foi possível salvar o evento. Confira os dados e tente novamente.');
@@ -311,9 +293,9 @@ export function EventsPage() {
     }
 
     try {
-      await deleteEvent(eventId, userId);
+      await removeEvent(eventId);
       setSelectedEvent((event) => (event?.id === eventId ? null : event));
-      await loadEvents();
+      showSuccess('Evento excluído com sucesso.');
     } catch (error) {
       console.error(error);
       setPageError('Não foi possível excluir o evento.');
@@ -327,10 +309,10 @@ export function EventsPage() {
     }
 
     try {
-      await updateEvent(event.id, userId, {
+      await editEvent(event.id, {
         isAttending: !(event.isAttending ?? false),
       });
-      await loadEvents();
+      showSuccess('Presença atualizada com sucesso.');
     } catch (error) {
       console.error(error);
       setPageError('Não foi possível atualizar a presença.');

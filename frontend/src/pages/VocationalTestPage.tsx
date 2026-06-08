@@ -23,11 +23,8 @@ import {
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { useAuth } from '../context/AuthContext';
-import {
-  createVocationalTest,
-  deleteVocationalTest,
-  listVocationalTests,
-} from '../services/vocationalTestService';
+import { useToast } from '../context/ToastContext';
+import { useVocationalTests } from '../hooks/useVocationalTests';
 import type { VocationalTestType } from '../types/vocationalTest';
 
 type ViewType = 'home' | 'taking-test' | 'viewing-result';
@@ -109,6 +106,17 @@ function getQuestionIndicators(currentQuestion: number, totalQuestions: number) 
 
 export function VocationalTestPage() {
   const { user } = useAuth();
+  const { showSuccess } = useToast();
+  const userId = user?.id;
+  const {
+    testHistory,
+    isLoading,
+    isSubmitting,
+    error: pageError,
+    setError: setPageError,
+    addTest,
+    removeTest,
+  } = useVocationalTests(userId);
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [selectedHistoryTest, setSelectedHistoryTest] =
     useState<VocationalTestType | null>(null);
@@ -116,14 +124,9 @@ export function VocationalTestPage() {
   const [answers, setAnswers] = useState<number[]>(
     new Array(questions.length).fill(undefined)
   );
-  const [testHistory, setTestHistory] = useState<VocationalTestType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pageError, setPageError] = useState('');
   const [historyPage, setHistoryPage] = useState(0);
 
   const latestTest = testHistory[0];
-  const userId = user?.id;
   const maxHistoryPage = Math.max(
     Math.ceil(testHistory.length / historyPageSize) - 1,
     0
@@ -132,28 +135,6 @@ export function VocationalTestPage() {
     historyPage * historyPageSize,
     historyPage * historyPageSize + historyPageSize
   );
-
-  async function loadTests() {
-    if (!userId) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      setPageError('');
-      const data = await listVocationalTests(userId);
-      setTestHistory(data);
-    } catch (error) {
-      console.error(error);
-      setPageError('Não foi possível carregar seus testes vocacionais.');
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadTests();
-  }, [userId]);
 
   useEffect(() => {
     if (historyPage > maxHistoryPage) {
@@ -181,22 +162,19 @@ export function VocationalTestPage() {
     }
 
     try {
-      setIsSubmitting(true);
       setPageError('');
 
-      const createdTest = await createVocationalTest({
+      const createdTest = await addTest({
         userId,
         answers: toCreateAnswers(testAnswers),
       });
 
-      setTestHistory((history) => [createdTest, ...history]);
       setSelectedHistoryTest(createdTest);
       setCurrentView('viewing-result');
+      showSuccess('Teste vocacional salvo com sucesso.');
     } catch (error) {
       console.error(error);
       setPageError('Não foi possível salvar o teste. Tente novamente.');
-    } finally {
-      setIsSubmitting(false);
     }
   }
 
@@ -235,10 +213,10 @@ export function VocationalTestPage() {
     }
 
     try {
-      await deleteVocationalTest(testId, userId);
-      setTestHistory((history) => history.filter((test) => test.id !== testId));
+      await removeTest(testId);
       setSelectedHistoryTest((test) => (test?.id === testId ? null : test));
       setCurrentView('home');
+      showSuccess('Teste excluído com sucesso.');
     } catch (error) {
       console.error(error);
       setPageError('Não foi possível excluir o teste.');
