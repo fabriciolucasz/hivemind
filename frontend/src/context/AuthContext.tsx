@@ -45,14 +45,12 @@ export function AuthProvider({
 
     storeAuth(token, userData);
     setUser(userData);
-
   };
 
   const signOut = () => {
 
     clearStoredAuth();
     setUser(null);
-
   };
 
   return (
