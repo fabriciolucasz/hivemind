@@ -51,3 +51,6 @@
 [2m21:40:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /src/pages/DailyPage.tsx[22m
 [2m21:41:33[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /src/pages/DailyPage.tsx[22m
 [2m21:43:15[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /src/pages/DailyPage.tsx[22m
+[2m22:04:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/styles/index.css, /src/context/AuthContext.tsx[22m
+[2m22:04:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/context/AuthContext.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m22:04:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/pages/LoginPage.tsx, /src/pages/DailyPage.tsx, /src/components/Layout.tsx, /src/pages/VocationalTestPage.tsx, /src/pages/PerformancePage.tsx, /src/routes/PrivateRoute.tsx, /src/pages/EventsPage.tsx[22m
