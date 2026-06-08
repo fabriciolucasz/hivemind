@@ -96,3 +96,7 @@
       at async loadAndTransform (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
       at async viteTransformMiddleware (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
 [2m21:13:45[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/PerformancePage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
