@@ -100,3 +100,55 @@
 [2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
 [2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
 [2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m22:05:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m22:05:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m22:05:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m22:05:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m22:10:22[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts?t=1780878680552:3:25)
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:17:23
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:27:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7701:6)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7688:5)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7713:14)
+[2m22:10:22[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts?t=1780878680552:3:25)
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:17:23
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:27:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7618:22)
+    at recursivelyTraversePassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7606:5)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7672:14)
+[2m22:10:23[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m22:10:23[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m22:10:23[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m22:10:23[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m22:10:25[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts?t=1780878680552:3:25)
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:17:23
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:27:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7618:22)
+    at recursivelyTraversePassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7606:5)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7672:14)
+[2m22:10:25[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts?t=1780878680552:3:25)
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:17:23
+    at http://localhost:5173/src/hooks/useVocationalTests.ts:27:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7701:6)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7688:5)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7713:14)
