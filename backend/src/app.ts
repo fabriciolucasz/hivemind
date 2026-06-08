@@ -5,6 +5,7 @@ import dailyLogRoutes from "./routes/dailyLogRoutes";
 import { eventRoutes } from "./routes/eventRoutes";
 import vocationalTestRoutes from "./routes/vocationalTestRoutes";
 import recommendationRoutes from "./routes/recommendationRoutes";
+import academicRecordRoutes from "./routes/academicRecordRoutes";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/auth", authRoutes);
 app.use("/api", dailyLogRoutes); 
 app.use("/api", vocationalTestRoutes);
 app.use("/api", recommendationRoutes);
+app.use("/api", academicRecordRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   return res.json({

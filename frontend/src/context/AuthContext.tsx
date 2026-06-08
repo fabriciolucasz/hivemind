@@ -1,15 +1,15 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+import type { User } from '../types/user';
+import {
+  clearStoredAuth,
+  getStoredUser,
+  storeAuth,
+} from '../utils/authStorage';
 
 interface AuthContextData {
   user: User | null;
@@ -36,41 +36,20 @@ export function AuthProvider({
 }: AuthProviderProps) {
 
   const [user, setUser] =
-    useState<User | null>(null);
+    useState<User | null>(() => getStoredUser());
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('@hivemind:user');
-    const storedTimestamp = localStorage.getItem('@hivemind:session_timestamp');
+  const signIn = (
+    token: string,
+    userData: User
+  ) => {
 
-    if (storedUser) {
-      const isExpired = storedTimestamp 
-        ? (Date.now() - parseInt(storedTimestamp, 10)) > 24 * 60 * 60 * 1000
-        : false;
-
-      if (isExpired) {
-        localStorage.removeItem('@hivemind:token');
-        localStorage.removeItem('@hivemind:user');
-        localStorage.removeItem('@hivemind:session_timestamp');
-        setUser(null);
-      } else {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-  }, []);
-
-  const signIn = (token: string, userData: User) => {
-    localStorage.setItem('@hivemind:token', token);
-    localStorage.setItem('@hivemind:user', JSON.stringify(userData));
-    localStorage.setItem('@hivemind:session_timestamp', Date.now().toString());
-
+    storeAuth(token, userData);
     setUser(userData);
   };
 
   const signOut = () => {
-    localStorage.removeItem('@hivemind:token');
-    localStorage.removeItem('@hivemind:user');
-    localStorage.removeItem('@hivemind:session_timestamp');
 
+    clearStoredAuth();
     setUser(null);
   };
 

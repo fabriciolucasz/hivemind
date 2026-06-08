@@ -1,28 +1,14 @@
 import {
   useState,
   useMemo,
-  useEffect,
 } from 'react';
 
 import '../App.css';
 
 import { useAuth } from '../context/AuthContext';
-
-import {
-  listDailyLogs,
-  createDailyLog,
-} from '../services/dailyLogService';
-
-interface DailyLog {
-  id: string;
-  date: string;
-  time: string;
-  text: string;
-  tags: string[];
-  emoji: string;
-  profileId: string;
-  createdAt?: string;
-}
+import { useToast } from '../context/ToastContext';
+import { useDailyLogs } from '../hooks/useDailyLogs';
+import type { DailyLog } from '../types/dailyLog';
 
 const TAGS_DISPONIVEIS = [
   'Matemática',
@@ -54,6 +40,14 @@ const EMOJIS_DISPONIVEIS = [
 
 export default function Diario() {
   const { user } = useAuth();
+  const { showError, showSuccess } = useToast();
+  const {
+    dailyLogs,
+    isLoading,
+    error,
+    createLog,
+    updateEmojiLocally,
+  } = useDailyLogs(user?.id);
 
   const [newText, setNewText] = useState('');
   const [selectedDate, setSelectedDate] = useState(
@@ -65,24 +59,6 @@ export default function Diario() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTagFilter, setActiveTagFilter] = useState<string | null>(null);
   const [activeEmojiFilter, setActiveEmojiFilter] = useState<string | null>(null);
-  const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
-
-  useEffect(() => {
-    if (!user?.id) return;
-
-    const userId = user.id;
-
-    async function loadDailyLogs() {
-      try {
-        const data = await listDailyLogs(userId);
-        setDailyLogs(data);
-      } catch (error) {
-        console.error('Erro ao carregar relatos:', error);
-      }
-    }
-
-    loadDailyLogs();
-  }, [user]);
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -96,7 +72,7 @@ export default function Diario() {
     if (newText.trim() === '') return;
 
     if (!user?.id) {
-      alert('Usuário não autenticado');
+      showError('Usuário não autenticado');
       return;
     }
 
@@ -116,27 +92,18 @@ export default function Diario() {
     };
 
     try {
-      const savedDailyLog = await createDailyLog(dataToSend);
-      setDailyLogs([savedDailyLog, ...dailyLogs]);
+      await createLog(dataToSend);
       setNewText('');
       setSelectedTags([]);
+      showSuccess('Entrada salva com sucesso.');
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao conectar ao backend!');
+      showError('Erro ao conectar ao backend.');
     }
   };
 
   const changeEmoji = (idDailyLog: string, newEmoji: string) => {
-    setDailyLogs(
-      dailyLogs.map((log) =>
-        log.id === idDailyLog
-          ? {
-              ...log,
-              emoji: newEmoji,
-            }
-          : log
-      )
-    );
+    updateEmojiLocally(idDailyLog, newEmoji);
     setOpenEmojiId(null);
   };
 
@@ -370,7 +337,13 @@ export default function Diario() {
             </div>
 
             <div className="entradas-list">
-              {filteredDailyLogs.map((log) => (
+              {error && (
+                <p className="text-muted text-center py-4">{error}</p>
+              )}
+              {isLoading && (
+                <p className="text-muted text-center py-4">Carregando entradas...</p>
+              )}
+              {!isLoading && filteredDailyLogs.map((log) => (
                 <div key={log.id} className="entrada-item-bordered">
                   <div className="entrada-item-header">
                     <div className="entrada-meta-left">
@@ -412,7 +385,7 @@ export default function Diario() {
                   <p className="entrada-texto">{log.text}</p>
                 </div>
               ))}
-              {filteredDailyLogs.length === 0 && (
+              {!isLoading && filteredDailyLogs.length === 0 && (
                 <p className="text-muted text-center py-4">Nenhuma entrada encontrada para os filtros aplicados.</p>
               )}
             </div>
@@ -460,4 +433,4 @@ export default function Diario() {
       </div>
     </div>
   );
-}
+}

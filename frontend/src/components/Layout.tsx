@@ -52,7 +52,10 @@ export default function Layout() {
           </button>
           
           {/* Os outros botões continuam iguais por enquanto */}
-          <button className={path === "/evolucao" ? "ativo" : ""}>
+          <button 
+            className={path === "/evolucao" ? "ativo" : ""}
+            onClick={() => navigate("/evolucao")}
+          >
             <EvolucaoIcon /> Evolução de Desempenho
           </button>
           <button 

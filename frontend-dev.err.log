@@ -1,0 +1,102 @@
+[2m20:19:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m20:19:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m20:19:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m20:19:17[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m20:19:22[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao buscar registros acadêmicos
+    at listAcademicRecords (http://localhost:5173/src/services/academicRecordService.ts:5:9)
+    at async loadRecords (http://localhost:5173/src/pages/PerformancePage.tsx:60:17)
+[2m20:19:23[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao buscar registros acadêmicos
+    at listAcademicRecords (http://localhost:5173/src/services/academicRecordService.ts:5:9)
+    at async loadRecords (http://localhost:5173/src/pages/PerformancePage.tsx:60:17)
+[2m20:20:13[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao criar registro acadêmico
+    at createAcademicRecord (http://localhost:5173/src/services/academicRecordService.ts:16:9)
+    at async handleAddPerformance (http://localhost:5173/src/pages/PerformancePage.tsx:127:24)
+[2m20:22:50[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao buscar registros acadêmicos
+    at listAcademicRecords (http://localhost:5173/src/services/academicRecordService.ts:5:9)
+    at async loadRecords (http://localhost:5173/src/pages/PerformancePage.tsx:60:17)
+[2m20:22:50[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao buscar registros acadêmicos
+    at listAcademicRecords (http://localhost:5173/src/services/academicRecordService.ts:5:9)
+    at async loadRecords (http://localhost:5173/src/pages/PerformancePage.tsx:60:17)
+[2m20:23:36[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mError: Erro ao criar registro acadêmico
+    at createAcademicRecord (http://localhost:5173/src/services/academicRecordService.ts:16:9)
+    at async handleAddPerformance (http://localhost:5173/src/pages/PerformancePage.tsx:127:24)
+[2m20:32:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m20:32:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m20:32:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m20:32:35[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m20:52:18[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts:3:25)
+    at loadTests (http://localhost:5173/src/pages/VocationalTestPage.tsx?t=1780876338263:97:23)
+    at http://localhost:5173/src/pages/VocationalTestPage.tsx?t=1780876338263:107:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7618:22)
+    at recursivelyTraversePassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7606:5)
+    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7672:14)
+[2m20:52:18[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: Failed to fetch
+    at listVocationalTests (http://localhost:5173/src/services/vocationalTestService.ts:3:25)
+    at loadTests (http://localhost:5173/src/pages/VocationalTestPage.tsx?t=1780876338263:97:23)
+    at http://localhost:5173/src/pages/VocationalTestPage.tsx?t=1780876338263:107:3
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:12904:13)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:851:66)
+    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6617:153)
+    at commitHookPassiveMountEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:6652:55)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7701:6)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7688:5)
+    at reconnectPassiveEffects (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=e5469b5c:7713:14)
+[2m20:52:19[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m20:52:19[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m20:52:19[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m20:52:19[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
+[2m21:13:45[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 3 errors:
+
+[31m[PARSE_ERROR] [0mIdentifier `isLoading` has already been declared
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/PerformancePage.tsx:73:5 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m73 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0misLoading[38;5;249m,[0m
+ [38;5;240m   │[0m     ────┬────  
+ [38;5;240m   │[0m         ╰────── `isLoading` has already been declared here
+ [38;5;240m   │[0m 
+ [38;5;246m82 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0misLoading[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mI[0m[38;5;249ms[0m[38;5;249mL[0m[38;5;249mo[0m[38;5;249ma[0m[38;5;249md[0m[38;5;249mi[0m[38;5;249mn[0m[38;5;249mg[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m[38;5;249mt[0m[38;5;249mr[0m[38;5;249mu[0m[38;5;249me[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m   │[0m          ────┬────  
+ [38;5;240m   │[0m              ╰────── It can not be redeclared here
+[38;5;246m────╯[0m
+
+[31m[PARSE_ERROR] [0mIdentifier `pageError` has already been declared
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/PerformancePage.tsx:74:12 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m74 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249me[0m[38;5;249mr[0m[38;5;249mr[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249m:[0m[38;5;249m [0mpageError[38;5;249m,[0m
+ [38;5;240m   │[0m            ────┬────  
+ [38;5;240m   │[0m                ╰────── `pageError` has already been declared here
+ [38;5;240m   │[0m 
+ [38;5;246m84 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0mpageError[38;5;249m,[0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mP[0m[38;5;249ma[0m[38;5;249mg[0m[38;5;249me[0m[38;5;249mE[0m[38;5;249mr[0m[38;5;249mr[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m[38;5;249m'[0m[38;5;249m'[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m   │[0m          ────┬────  
+ [38;5;240m   │[0m              ╰────── It can not be redeclared here
+[38;5;246m────╯[0m
+
+[31m[PARSE_ERROR] [0mIdentifier `setPageError` has already been declared
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/PerformancePage.tsx:75:15 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m75 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mt[0m[38;5;249mE[0m[38;5;249mr[0m[38;5;249mr[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249m:[0m[38;5;249m [0msetPageError[38;5;249m,[0m
+ [38;5;240m   │[0m               ──────┬─────  
+ [38;5;240m   │[0m                     ╰─────── `setPageError` has already been declared here
+ [38;5;240m   │[0m 
+ [38;5;246m84 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249m[[0m[38;5;249mp[0m[38;5;249ma[0m[38;5;249mg[0m[38;5;249me[0m[38;5;249mE[0m[38;5;249mr[0m[38;5;249mr[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249m,[0m[38;5;249m [0msetPageError[38;5;249m][0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249mu[0m[38;5;249ms[0m[38;5;249me[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m([0m[38;5;249m'[0m[38;5;249m'[0m[38;5;249m)[0m[38;5;249m;[0m
+ [38;5;240m   │[0m                     ──────┬─────  
+ [38;5;240m   │[0m                           ╰─────── It can not be redeclared here
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/src/pages/PerformancePage.tsx[39m
+      at transformWithOxc (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:3339:19)
+      at TransformPluginContext.transform (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:3410:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:30271:51)
+      at async loadAndTransform (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/rodri/OneDrive/Documentos/HiveMind/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m21:13:45[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/PerformancePage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-width`. Did you mean `strokeWidth`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linecap`. Did you mean `strokeLinecap`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `stroke-linejoin`. Did you mean `strokeLinejoin`?
+[2m21:51:55[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mInvalid DOM property `clip-path`. Did you mean `clipPath`?
