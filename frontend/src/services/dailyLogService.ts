@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { api } from './api';
 
+=======
+>>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
 import type { CreateDailyLogData, DailyLog } from '../types/dailyLog';
 
 const API_URL = 'http://localhost:3000/api/daily-logs';
@@ -52,6 +55,12 @@ export async function createDailyLog(
 
 }
 
-export async function deleteDailyLog(id: string) {
-  await api.delete(`/api/daily-logs/${id}`); 
+export async function deleteDailyLog(id: string): Promise<void> {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('Erro ao excluir relato');
+  }
 }
