@@ -131,10 +131,7 @@ export default function Dashboard() {
     <div className="page-container">
       <header className="page-header">
         <div className="page-title-row">
-
           <h1 style={{ textTransform: 'capitalize' }}>Olá, {firstName}! 👋</h1>
-          <h1 style={{ textTransform: 'capitalize' }}>Olá, {user?.name || 'Estudante'}! 👋</h1>
-
         </div>
         <p className="page-subtitle">{dataDeHoje}</p>
       </header>
