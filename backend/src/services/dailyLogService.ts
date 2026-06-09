@@ -61,6 +61,12 @@ export async function createDailyLogService({
   return dailyLog;
 }
 
+export async function deleteDailyLogService(id: string) {
+  return await prisma.dailyLog.delete({
+    where: { id },
+  });
+}
+
 export async function listDailyLogsService(
   userId: string
 ) {

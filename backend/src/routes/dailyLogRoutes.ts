@@ -10,4 +10,6 @@ router.get(
 
 router.post("/daily-logs", dailyLogController.create);
 
+router.delete("/daily-logs/:id", dailyLogController.delete);
+
 export default router;

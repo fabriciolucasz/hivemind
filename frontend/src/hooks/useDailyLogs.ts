@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import {
   createDailyLog,
+  deleteDailyLog,
   listDailyLogs,
 } from '../services/dailyLogService';
 import type { CreateDailyLogData, DailyLog } from '../types/dailyLog';
@@ -42,6 +43,12 @@ export function useDailyLogs(userId?: string) {
     return savedDailyLog;
   }, []);
 
+  const deleteLog = useCallback(async (idDailyLog: string) => {
+    await deleteDailyLog(idDailyLog);
+    setDailyLogs((currentLogs) =>
+      currentLogs.filter((log) => log.id !== idDailyLog)
+    );
+  }, []);
   const updateEmojiLocally = useCallback((idDailyLog: string, emoji: string) => {
     setDailyLogs((currentLogs) =>
       currentLogs.map((log) =>
@@ -60,6 +67,7 @@ export function useDailyLogs(userId?: string) {
     isLoading,
     error,
     createLog,
+    deleteLog,
     updateEmojiLocally,
     reloadDailyLogs: loadDailyLogs,
   };

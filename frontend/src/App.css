@@ -692,6 +692,13 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #64748B;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.btn-filter:hover {
+  background-color: #F1F5F9;
 }
 
 .entries-count {
@@ -855,19 +862,11 @@ body, html {
   position: relative;
 }
 
-.btn-filter {
-  color: #64748B;
-  position: relative;
-  transition: all 0.2s;
-}
-
-
 .btn-filter.ativo {
   color: #2563EB;
   border-color: #BFDBFE;
   background-color: #EFF6FF;
 }
-
 
 .filter-badge {
   position: absolute;
