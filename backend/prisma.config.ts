@@ -1,5 +1,11 @@
 import "dotenv/config";
-import { env, PrismaConfig } from "prisma/config";
+import { PrismaConfig } from "prisma/config";
+
+const datasourceUrl = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
+
+if (!datasourceUrl) {
+  throw new Error("DIRECT_URL or DATABASE_URL must be configured");
+}
 
 export default {
   schema: "./prisma/schema.prisma",
@@ -7,6 +13,6 @@ export default {
     path: "./prisma/migrations",
   },
   datasource: {
-    url: env("DIRECT_URL"),
+    url: datasourceUrl,
   },
 } satisfies PrismaConfig;
