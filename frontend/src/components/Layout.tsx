@@ -9,11 +9,18 @@ import MentorIaIcon from "./MentorIaIcon";
 import TesteVocacionalIcon from "./TesteVocacionalIcon";
 import PerfilIcon from "./PerfilIcon";
 import LogoutIcon from "./LogoutIcon";
+import { useAuth } from "../context/AuthContext";
 
 export default function Layout() {
   const navigate = useNavigate(); 
   const location = useLocation(); 
+  const { signOut } = useAuth();
   const path = location.pathname; 
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className="layout-container">
@@ -45,25 +52,37 @@ export default function Layout() {
           </button>
           
           {/* Os outros botões continuam iguais por enquanto */}
-          <button className={path === "/evolucao" ? "ativo" : ""}>
+          <button 
+            className={path === "/evolucao" ? "ativo" : ""}
+            onClick={() => navigate("/evolucao")}
+          >
             <EvolucaoIcon /> Evolução de Desempenho
           </button>
-          <button className={path === "/eventos" ? "ativo" : ""}>
+          <button 
+            className={path === "/eventos" ? "ativo" : ""}
+            onClick={() => navigate("/eventos")}
+          >
             <EventosIcon /> Eventos
           </button>
           <button className={path === "/mentor" ? "ativo" : ""}>
             <MentorIaIcon /> Mentor IA
           </button>
-          <button className={path === "/teste" ? "ativo" : ""}>
+          <button 
+            className={path === "/teste" ? "ativo" : ""}
+            onClick={() => navigate("/teste")}
+          >
             <TesteVocacionalIcon /> Teste Vocacional
           </button>
         </nav>
         
         <div className="sidebar-footer">
-          <button>
+          <button
+            className={path === "/perfil" || path === "/profile" ? "ativo" : ""}
+            onClick={() => navigate("/perfil")}
+          >
             <PerfilIcon /> Perfil
           </button>
-          <button>
+          <button onClick={handleSignOut}>
             <LogoutIcon /> Sair
           </button>
         </div>

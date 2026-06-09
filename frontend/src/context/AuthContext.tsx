@@ -1,15 +1,15 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+import type { User } from '../types/user';
+import {
+  clearStoredAuth,
+  getStoredUser,
+  storeAuth,
+} from '../utils/authStorage';
 
 interface AuthContextData {
   user: User | null;
@@ -36,56 +36,21 @@ export function AuthProvider({
 }: AuthProviderProps) {
 
   const [user, setUser] =
-    useState<User | null>(null);
-
-  useEffect(() => {
-
-    const storedUser =
-      localStorage.getItem(
-        '@hivemind:user'
-      );
-
-    if (storedUser) {
-
-      setUser(
-        JSON.parse(storedUser)
-      );
-
-    }
-
-  }, []);
+    useState<User | null>(() => getStoredUser());
 
   const signIn = (
     token: string,
     userData: User
   ) => {
 
-    localStorage.setItem(
-      '@hivemind:token',
-      token
-    );
-
-    localStorage.setItem(
-      '@hivemind:user',
-      JSON.stringify(userData)
-    );
-
+    storeAuth(token, userData);
     setUser(userData);
-
   };
 
   const signOut = () => {
 
-    localStorage.removeItem(
-      '@hivemind:token'
-    );
-
-    localStorage.removeItem(
-      '@hivemind:user'
-    );
-
+    clearStoredAuth();
     setUser(null);
-
   };
 
   return (

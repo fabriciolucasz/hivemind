@@ -1,7 +1,6 @@
 import {
   useState,
   useMemo,
-  useEffect,
 } from 'react';
 
 import '../App.css';
@@ -56,6 +55,14 @@ const EMOJIS_DISPONIVEIS = [
 
 export default function Diario() {
   const { user } = useAuth();
+  const { showError, showSuccess } = useToast();
+  const {
+    dailyLogs,
+    isLoading,
+    error,
+    createLog,
+    updateEmojiLocally,
+  } = useDailyLogs(user?.id);
 
   const [newText, setNewText] = useState('');
   const [selectedDate, setSelectedDate] = useState(
@@ -102,7 +109,7 @@ export default function Diario() {
     if (newText.trim() === '') return;
 
     if (!user?.id) {
-      alert('Usuário não autenticado');
+      showError('Usuário não autenticado');
       return;
     }
 
@@ -122,13 +129,33 @@ export default function Diario() {
     };
 
     try {
-      const savedDailyLog = await createDailyLog(dataToSend);
-      setDailyLogs([savedDailyLog, ...dailyLogs]);
+      await createLog(dataToSend);
       setNewText('');
       setSelectedTags([]);
+      showSuccess('Entrada salva com sucesso.');
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao conectar ao backend!');
+      showError('Erro ao conectar ao backend.');
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (!logToDelete) return;
+    setIsDeleting(true);
+    try {
+      await deleteDailyLog(logToDelete);
+      // Remove a entrada deletada da tela 
+      setDailyLogs(dailyLogs.filter(log => log.id !== logToDelete));
+      setLogToDelete(null);
+
+      // Mostra o aviso verde de sucesso
+      setShowDeleteToast(true);
+      setTimeout(() => setShowDeleteToast(false), 3000);
+    } catch (error) {
+      console.error('Erro ao excluir:', error);
+      alert('Houve um erro ao tentar excluir a entrada.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -163,6 +190,7 @@ export default function Diario() {
           : log
       )
     );
+    updateEmojiLocally(idDailyLog, newEmoji);
     setOpenEmojiId(null);
   };
 
@@ -395,7 +423,13 @@ export default function Diario() {
             </div>
 
             <div className="entradas-list">
-              {filteredDailyLogs.map((log) => (
+              {error && (
+                <p className="text-muted text-center py-4">{error}</p>
+              )}
+              {isLoading && (
+                <p className="text-muted text-center py-4">Carregando entradas...</p>
+              )}
+              {!isLoading && filteredDailyLogs.map((log) => (
                 <div key={log.id} className="entrada-item-bordered">
                   <div className="entrada-item-header">
                     <div className="entrada-meta-left">
@@ -461,7 +495,7 @@ export default function Diario() {
                   <p className="entrada-texto">{log.text}</p>
                 </div>
               ))}
-              {filteredDailyLogs.length === 0 && (
+              {!isLoading && filteredDailyLogs.length === 0 && (
                 <p className="text-muted text-center py-4">Nenhuma entrada encontrada para os filtros aplicados.</p>
               )}
             </div>

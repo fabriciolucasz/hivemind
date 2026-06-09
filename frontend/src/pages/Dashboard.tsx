@@ -14,7 +14,7 @@ import '../App.css';
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user } = useAuth(); 
 
   const [diaryEntry, setDiaryEntry] = useState('');
   const [diaryCount, setDiaryCount] = useState(0);
@@ -114,11 +114,14 @@ export default function Dashboard() {
     );
   }
 
+  // Pegamos o primeiro nome do usuário para o cabeçalho
+  const firstName = user?.name ? user.name.split(' ')[0] : 'Estudante';
+
   return (
     <div className="page-container">
       <header className="page-header">
         <div className="page-title-row">
-          <h1 style={{ textTransform: 'capitalize' }}>Olá, {user?.name || 'Estudante'}! 👋</h1>
+          <h1 style={{ textTransform: 'capitalize' }}>Olá, {firstName}! 👋</h1>
         </div>
         <p className="page-subtitle">{dataDeHoje}</p>
       </header>
