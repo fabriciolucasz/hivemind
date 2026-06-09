@@ -64,6 +64,15 @@ export function ResetPassword() {
 
     } catch (error) {
 
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message ??
+          'Erro ao alterar senha'
+        );
+
+        return;
+      }
+
       setError('Erro ao alterar senha');
 
     }

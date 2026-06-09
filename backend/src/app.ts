@@ -8,6 +8,7 @@ import { eventRoutes } from './routes/eventRoutes';
 import vocationalTestRoutes from './routes/vocationalTestRoutes';
 import recommendationRoutes from './routes/recommendationRoutes';
 import academicRecordRoutes from './routes/academicRecordRoutes';
+import profileRoutes from './routes/profileRoutes';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api', dailyLogRoutes);
 app.use('/api', vocationalTestRoutes);
 app.use('/api', recommendationRoutes);
 app.use('/api', academicRecordRoutes);
+app.use('/api', profileRoutes);
 app.use('/events', eventRoutes);
 
 app.get('/', (req: Request, res: Response) => {

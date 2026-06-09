@@ -3,7 +3,10 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 
 import { prisma } from '../database/prisma';
-import { transporter } from '../services/mailServices';
+import {
+  hasMailCredentials,
+  transporter,
+} from '../services/mailServices';
 import {
   loginService,
   registerService,
@@ -122,16 +125,20 @@ export async function forgotPassword(
       },
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Recuperação de senha',
-      html: `
-        <h2>Recuperação de senha</h2>
-        <p>Clique no link abaixo para criar uma nova senha:</p>
-        <a href="${link}">${link}</a>
-      `,
-    });
+    if (hasMailCredentials()) {
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Recuperação de senha',
+        html: `
+          <h2>Recuperação de senha</h2>
+          <p>Clique no link abaixo para criar uma nova senha:</p>
+          <a href="${link}">${link}</a>
+        `,
+      });
+    } else {
+      console.log(`Link de recuperação de senha para ${email}: ${link}`);
+    }
 
     res.json({
       message: 'Se o email existir, enviaremos as instruções de recuperação',
