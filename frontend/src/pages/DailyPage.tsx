@@ -1,6 +1,7 @@
 import {
   useState,
   useMemo,
+  useEffect,
 } from 'react';
 
 import '../App.css';
@@ -12,7 +13,6 @@ import {
   createDailyLog,
   deleteDailyLog,
 } from '../services/dailyLogService';
-
 
 interface DailyLog {
   id: string;
@@ -39,31 +39,13 @@ const TAGS_DISPONIVEIS = [
 ];
 
 const EMOJIS_DISPONIVEIS = [
-  '📝',
-  '🤩',
-  '🤓',
-  '💡',
-  '🎯',
-  '🚀',
-  '🤔',
-  '🔥',
-  '💻',
-  '📚',
-  '😞',
-  '🙄',
+  '📝', '🤩', '🤓', '💡', '🎯', '🚀', '🤔', '🔥', '💻', '📚', '😞', '🙄',
 ];
 
 export default function Diario() {
   const { user } = useAuth();
-  const { showError, showSuccess } = useToast();
-  const {
-    dailyLogs,
-    isLoading,
-    error,
-    createLog,
-    updateEmojiLocally,
-  } = useDailyLogs(user?.id);
 
+  // Estados dos formulários
   const [newText, setNewText] = useState('');
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0]
@@ -71,14 +53,21 @@ export default function Diario() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [openEmojiId, setOpenEmojiId] = useState<string | null>(null);
+  
+  // Estados de Filtro
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTagFilter, setActiveTagFilter] = useState<string | null>(null);
   const [activeEmojiFilter, setActiveEmojiFilter] = useState<string | null>(null);
+  
+  // Estados de Dados (Corrigidos)
   const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Estados de Exclusão
   const [logToDelete, setLogToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
-
 
   useEffect(() => {
     if (!user?.id) return;
@@ -87,10 +76,14 @@ export default function Diario() {
 
     async function loadDailyLogs() {
       try {
+        setIsLoading(true);
         const data = await listDailyLogs(userId);
         setDailyLogs(data);
       } catch (error) {
         console.error('Erro ao carregar relatos:', error);
+        setError('Não foi possível carregar os diários.');
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -109,7 +102,7 @@ export default function Diario() {
     if (newText.trim() === '') return;
 
     if (!user?.id) {
-      showError('Usuário não autenticado');
+      alert('Usuário não autenticado');
       return;
     }
 
@@ -129,13 +122,14 @@ export default function Diario() {
     };
 
     try {
-      await createLog(dataToSend);
+      const savedDailyLog = await createDailyLog(dataToSend);
+      setDailyLogs([savedDailyLog, ...dailyLogs]);
       setNewText('');
       setSelectedTags([]);
-      showSuccess('Entrada salva com sucesso.');
+      alert('Entrada salva com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      showError('Erro ao conectar ao backend.');
+      alert('Erro ao conectar ao backend.');
     }
   };
 
@@ -144,27 +138,7 @@ export default function Diario() {
     setIsDeleting(true);
     try {
       await deleteDailyLog(logToDelete);
-      // Remove a entrada deletada da tela 
-      setDailyLogs(dailyLogs.filter(log => log.id !== logToDelete));
-      setLogToDelete(null);
-
-      // Mostra o aviso verde de sucesso
-      setShowDeleteToast(true);
-      setTimeout(() => setShowDeleteToast(false), 3000);
-    } catch (error) {
-      console.error('Erro ao excluir:', error);
-      alert('Houve um erro ao tentar excluir a entrada.');
-    } finally {
-      setIsDeleting(false);
-    }
-  };
-
-  const confirmDelete = async () => {
-    if (!logToDelete) return;
-    setIsDeleting(true);
-    try {
-      await deleteDailyLog(logToDelete);
-      // Remove a entrada deletada da tela 
+      // Remove a entrada deletada
       setDailyLogs(dailyLogs.filter(log => log.id !== logToDelete));
       setLogToDelete(null);
 
@@ -190,7 +164,6 @@ export default function Diario() {
           : log
       )
     );
-    updateEmojiLocally(idDailyLog, newEmoji);
     setOpenEmojiId(null);
   };
 

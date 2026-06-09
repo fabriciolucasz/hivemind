@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
+import { useVocationalTests } from '../hooks/useVocationalTests';
+import { useAcademicRecords } from '../hooks/useAcademicRecords';
+import { useEvents } from '../hooks/useEvents';
 import {
   BookOpen,
   Calendar,
@@ -9,18 +12,25 @@ import {
   Brain,
   CheckCircle2,
   Circle,
+  Clock,
 } from 'lucide-react';
 import '../App.css';
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { user } = useAuth(); 
+  const { user } = useAuth();
+
+  // Consumindo os dados reais do banco usando os hooks da equipe
+  const { testHistory } = useVocationalTests(user?.id);
+  const { records: performanceRecords } = useAcademicRecords(user?.id);
+  const { events } = useEvents(user?.id);
 
   const [diaryEntry, setDiaryEntry] = useState('');
   const [diaryCount, setDiaryCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  
   const [reminderActive, setReminderActive] = useState(() => {
     return localStorage.getItem('hivemind_reminder_active') === 'true';
   });
@@ -48,7 +58,6 @@ export default function Dashboard() {
     fetchDashboardStats();
   }, [fetchDashboardStats]);
 
-  // 2. SALVAR ANOTAÇÃO
   const handleSaveDiary = async () => {
     if (!diaryEntry.trim() || !user?.id) return;
     setSaving(true);
@@ -67,11 +76,8 @@ export default function Dashboard() {
       });
 
       setDiaryEntry('');
-
       setShowSuccessToast(true);
       setTimeout(() => setShowSuccessToast(false), 3000); 
-
-      // Recarrega o contador
       await fetchDashboardStats();
     } catch (error) {
       console.error('Erro ao submeter entrada do diário:', error);
@@ -81,7 +87,6 @@ export default function Dashboard() {
     }
   };
 
-  // 3. FUNÇÕES DO LEMBRETE
   const handleToggleReminder = () => {
     const nextState = !reminderActive;
     setReminderActive(nextState);
@@ -93,12 +98,19 @@ export default function Dashboard() {
     localStorage.setItem('hivemind_reminder_time', newTime);
   };
 
-  // 4. CONFIGURAÇÕES FIXAS (Até criar as rotas de Notas e Eventos)
+  // --- LÓGICA DINÂMICA DE PROGRESSO ---
   const requiredDiary = 15;
   const requiredPerformance = 10;
-  const performanceCount = 0;
-  const vocationalCompleted = false; 
-  const upcomingEvents: any[] = []; 
+
+  const performanceCount = performanceRecords?.length || 0;
+  const vocationalCompleted = testHistory?.length > 0; 
+  
+  // mostrar apenas os futuros (max 3 eventos)
+  const currentDateTime = new Date();
+  const upcomingEvents = (events || [])
+    .filter((event) => new Date(event.date) >= currentDateTime)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(0, 3);
 
   const overallProgress = Math.round(
     ((Math.min(diaryCount, requiredDiary) / requiredDiary) * 33.33 +
@@ -114,7 +126,6 @@ export default function Dashboard() {
     );
   }
 
-  // Pegamos o primeiro nome do usuário para o cabeçalho
   const firstName = user?.name ? user.name.split(' ')[0] : 'Estudante';
 
   return (
@@ -180,7 +191,7 @@ export default function Dashboard() {
                 <span style={{ fontSize: '14px', color: vocationalCompleted ? '#2563EB' : '#64748B', fontWeight: vocationalCompleted ? 500 : 400 }}>
                   {vocationalCompleted ? '✓ Concluído' : 'Pendente'}
                 </span>
-                {!vocationalCompleted && <button className="btn-filter" onClick={() => navigate('/dashboard/test')}>Fazer Teste</button>}
+                {!vocationalCompleted && <button className="btn-filter" onClick={() => navigate('/teste')}>Fazer Teste</button>}
               </div>
             </div>
           </div>
@@ -286,14 +297,28 @@ export default function Dashboard() {
 
             <div className="entradas-list">
               {upcomingEvents.length > 0 ? (
-                upcomingEvents.map((event, idx) => (
-                  <div key={idx} className="entrada-item-bordered" style={{ padding: '16px' }}>
-                    <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', color: '#1A202C' }}>{event.title}</h4>
-                    <div className="flex-row-center gap-2" style={{ color: '#64748B', fontSize: '13px' }}>
-                      <Calendar size={14} /> {event.date}
+                upcomingEvents.map((event) => {
+                  const eventDate = new Date(event.date);
+                  const dataFormatada = new Intl.DateTimeFormat('pt-BR').format(eventDate);
+                  const horaFormatada = new Intl.DateTimeFormat('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }).format(eventDate);
+
+                  return (
+                    <div key={event.id} className="entrada-item-bordered" style={{ padding: '16px' }}>
+                      <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', color: '#1A202C' }}>{event.title}</h4>
+                      <div className="flex-row-center gap-4" style={{ color: '#64748B', fontSize: '13px' }}>
+                        <span className="flex items-center gap-1">
+                          <Calendar size={14} /> {dataFormatada}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock size={14} /> {horaFormatada}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div style={{ padding: '24px 16px', textAlign: 'center', background: '#F8FAFB', borderRadius: '8px', border: '1px dashed #E2E8F0' }}>
                   <p className="text-muted" style={{ margin: 0, fontSize: '14px' }}>Nenhum evento agendado por enquanto.</p>
@@ -301,12 +326,13 @@ export default function Dashboard() {
               )}
             </div>
 
-            <button className="btn-filter mt-4" style={{ width: '100%' }} onClick={() => navigate('/dashboard/events')}>
+            <button className="btn-filter mt-4" style={{ width: '100%' }} onClick={() => navigate('/eventos')}>
               Ver Calendário Completo
             </button>
           </section>
         </div>
       </div>
+      
       {/* aviso entrada registrada com sucesso */}
       {showSuccessToast && (
         <div style={{
