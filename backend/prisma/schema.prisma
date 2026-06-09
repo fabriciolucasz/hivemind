@@ -9,12 +9,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  id                   String    @id @default(uuid())
+  name                 String
+  email                String    @unique
+  password             String
+  resetToken           String?   @map("reset_token")
+  resetTokenExpiresAt  DateTime? @map("reset_token_expires_at") @db.Timestamptz(3)
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   profile Profile?
 

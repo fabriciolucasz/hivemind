@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import jwt from 'jsonwebtoken';
+import type { TokenPayload } from '../types/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'changeme';
 
@@ -25,7 +26,12 @@ export function authMiddleware(
 
   try {
 
-    jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET) as TokenPayload;
+
+    (req as any).user = {
+      id: decoded.id,
+      email: decoded.email,
+    };
 
     next();
 

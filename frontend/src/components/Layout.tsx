@@ -76,7 +76,10 @@ export default function Layout() {
         </nav>
         
         <div className="sidebar-footer">
-          <button>
+          <button
+            className={path === "/perfil" || path === "/profile" ? "ativo" : ""}
+            onClick={() => navigate("/perfil")}
+          >
             <PerfilIcon /> Perfil
           </button>
           <button onClick={handleSignOut}>

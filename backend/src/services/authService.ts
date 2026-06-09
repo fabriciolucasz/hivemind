@@ -6,7 +6,6 @@ import { prisma } from '../database/prisma';
 import type {
   LoginRequest,
   RegisterRequest,
-  TokenPayload,
 } from '../types/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'changeme';
@@ -53,8 +52,6 @@ export async function registerService({
       },
     },
   });
-
-  console.log(user);
 
   const token = jwt.sign(
     {

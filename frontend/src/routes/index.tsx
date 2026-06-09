@@ -6,12 +6,14 @@ import Dashboard from '../pages/Dashboard';
 import Diario from '../pages/DailyPage';
 import Layout from '../components/Layout';
 import { EventsPage } from '../pages/EventsPage';
-import { VocationalTestPage } from '../pages/VocationalTestPage';
+import { ForgotPassword } from '../pages/ForgotPassword';
 import { PerformancePage } from '../pages/PerformancePage';
+import { ProfilePage } from '../pages/ProfilePage';
+import { ResetPassword } from '../pages/ResetPassword';
+import { VocationalTestPage } from '../pages/VocationalTestPage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
-  // ================= ROTAS PÚBLICAS =================
   {
     path: '/',
     element: <LoginPage />,
@@ -20,14 +22,18 @@ export const router = createBrowserRouter([
     path: '/signup',
     element: <SignupPage />,
   },
-
-  // ================= ROTAS PRIVADAS =================
   {
-    // Verifica se o usuário está logado
+    path: '/forgot-password',
+    element: <ForgotPassword />,
+  },
+  {
+    path: '/reset-password/:token',
+    element: <ResetPassword />,
+  },
+  {
     element: <PrivateRoute />,
     children: [
       {
-
         element: <Layout />,
         children: [
           {
@@ -53,6 +59,14 @@ export const router = createBrowserRouter([
           {
             path: '/evolucao',
             element: <PerformancePage />,
+          },
+          {
+            path: '/perfil',
+            element: <ProfilePage />,
+          },
+          {
+            path: '/profile',
+            element: <ProfilePage />,
           },
         ],
       },

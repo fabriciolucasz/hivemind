@@ -4,6 +4,7 @@ import dailyLogRoutes from './dailyLogRoutes';
 import vocationalTestRoutes from './vocationalTestRoutes';
 import recommendationRoutes from './recommendationRoutes';
 import academicRecordRoutes from './academicRecordRoutes';
+import profileRoutes from './profileRoutes';
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use('/api', dailyLogRoutes);
 router.use('/api', vocationalTestRoutes);
 router.use('/api', recommendationRoutes);
 router.use('/api', academicRecordRoutes);
+router.use('/api', profileRoutes);
 
 export { router };
