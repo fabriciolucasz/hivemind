@@ -1,50 +1,13 @@
-import {
-  useState,
-  useMemo,
-<<<<<<< HEAD
-  useEffect,
-=======
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
-} from 'react';
-
+import { useState, useMemo } from 'react';
 import '../App.css';
-
 import { useAuth } from '../context/AuthContext';
-<<<<<<< HEAD
-
-import {
-  listDailyLogs,
-  createDailyLog,
-  deleteDailyLog,
-} from '../services/dailyLogService';
-
-interface DailyLog {
-  id: string;
-  date: string;
-  time: string;
-  text: string;
-  tags: string[];
-  emoji: string;
-  profileId: string;
-  createdAt?: string;
-}
-=======
 import { useToast } from '../context/ToastContext';
 import { useDailyLogs } from '../hooks/useDailyLogs';
 import type { DailyLog } from '../types/dailyLog';
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
 
 const TAGS_DISPONIVEIS = [
-  'Matemática',
-  'Física',
-  'Tecnologia',
-  'Programação',
-  'Biologia',
-  'História',
-  'Literatura',
-  'Arte',
-  'Música',
-  'Esportes',
+  'Matemática', 'Física', 'Tecnologia', 'Programação', 'Biologia',
+  'História', 'Literatura', 'Arte', 'Música', 'Esportes',
 ];
 
 const EMOJIS_DISPONIVEIS = [
@@ -53,8 +16,8 @@ const EMOJIS_DISPONIVEIS = [
 
 export default function Diario() {
   const { user } = useAuth();
-<<<<<<< HEAD
-=======
+  
+  // Usando a infraestrutura nova da equipe!
   const { showError, showSuccess } = useToast();
   const {
     dailyLogs,
@@ -64,13 +27,10 @@ export default function Diario() {
     deleteLog,
     updateEmojiLocally,
   } = useDailyLogs(user?.id);
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
 
   // Estados dos formulários
   const [newText, setNewText] = useState('');
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split('T')[0]
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [openEmojiId, setOpenEmojiId] = useState<string | null>(null);
@@ -79,42 +39,10 @@ export default function Diario() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTagFilter, setActiveTagFilter] = useState<string | null>(null);
   const [activeEmojiFilter, setActiveEmojiFilter] = useState<string | null>(null);
-<<<<<<< HEAD
   
-  // Estados de Dados (Corrigidos)
-  const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   // Estados de Exclusão
   const [logToDelete, setLogToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [showDeleteToast, setShowDeleteToast] = useState(false);
-
-  useEffect(() => {
-    if (!user?.id) return;
-
-    const userId = user.id;
-
-    async function loadDailyLogs() {
-      try {
-        setIsLoading(true);
-        const data = await listDailyLogs(userId);
-        setDailyLogs(data);
-      } catch (error) {
-        console.error('Erro ao carregar relatos:', error);
-        setError('Não foi possível carregar os diários.');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadDailyLogs();
-  }, [user]);
-=======
-  const [logToDelete, setLogToDelete] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -128,11 +56,7 @@ export default function Diario() {
     if (newText.trim() === '') return;
 
     if (!user?.id) {
-<<<<<<< HEAD
-      alert('Usuário não autenticado');
-=======
       showError('Usuário não autenticado');
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
       return;
     }
 
@@ -152,62 +76,34 @@ export default function Diario() {
     };
 
     try {
-<<<<<<< HEAD
-      const savedDailyLog = await createDailyLog(dataToSend);
-      setDailyLogs([savedDailyLog, ...dailyLogs]);
+      await createLog(dataToSend);
       setNewText('');
       setSelectedTags([]);
-      alert('Entrada salva com sucesso!');
+      showSuccess('Entrada salva com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao conectar ao backend.');
+      showError('Erro ao conectar ao backend.');
     }
   };
 
   const confirmDelete = async () => {
     if (!logToDelete) return;
-    setIsDeleting(true);
-    try {
-      await deleteDailyLog(logToDelete);
-      // Remove a entrada deletada
-      setDailyLogs(dailyLogs.filter(log => log.id !== logToDelete));
-      setLogToDelete(null);
 
-      // Mostra o aviso verde de sucesso
-      setShowDeleteToast(true);
-      setTimeout(() => setShowDeleteToast(false), 3000);
+    try {
+      setIsDeleting(true);
+      await deleteLog(logToDelete);
+      setLogToDelete(null);
+      showSuccess('Anotação excluída com sucesso!');
     } catch (error) {
       console.error('Erro ao excluir:', error);
-      alert('Houve um erro ao tentar excluir a entrada.');
+      showError('Erro ao excluir a anotação.');
     } finally {
       setIsDeleting(false);
-=======
-      await createLog(dataToSend);
-      setNewText('');
-      setSelectedTags([]);
-      showSuccess('Entrada salva com sucesso.');
-    } catch (error) {
-      console.error('Erro ao salvar:', error);
-      showError('Erro ao conectar ao backend.');
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
     }
   };
 
   const changeEmoji = (idDailyLog: string, newEmoji: string) => {
-<<<<<<< HEAD
-    setDailyLogs(
-      dailyLogs.map((log) =>
-        log.id === idDailyLog
-          ? {
-            ...log,
-            emoji: newEmoji,
-          }
-          : log
-      )
-    );
-=======
     updateEmojiLocally(idDailyLog, newEmoji);
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
     setOpenEmojiId(null);
   };
 
@@ -218,21 +114,6 @@ export default function Diario() {
     setFilterOpen(false);
   };
 
-  const confirmDelete = async () => {
-    if (!logToDelete) return;
-
-    try {
-      setIsDeleting(true);
-      await deleteLog(logToDelete);
-      setLogToDelete(null);
-      showSuccess('Anotação excluída com sucesso.');
-    } catch (error) {
-      console.error('Erro ao excluir:', error);
-      showError('Erro ao excluir anotação.');
-    } finally {
-      setIsDeleting(false);
-    }
-  };
   const filteredDailyLogs = useMemo(() => {
     return dailyLogs.filter((log) => {
       const matchSearch =
@@ -249,14 +130,7 @@ export default function Diario() {
 
   const totalEntries = dailyLogs.length;
 
-<<<<<<< HEAD
-  const currentMonthFormatted = `/${new Date().getMonth() + 1 < 10 ? '0' : ''
-    }${new Date().getMonth() + 1}/`;
-=======
-  const currentMonthFormatted = `/${
-    new Date().getMonth() + 1 < 10 ? '0' : ''
-  }${new Date().getMonth() + 1}/`;
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
+  const currentMonthFormatted = `/${new Date().getMonth() + 1 < 10 ? '0' : ''}${new Date().getMonth() + 1}/`;
 
   const entriesThisMonth = dailyLogs.filter((log) =>
     log.date.includes(currentMonthFormatted)
@@ -296,13 +170,8 @@ export default function Diario() {
       <header className="page-header">
         <div className="page-title-row">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-<<<<<<< HEAD
             <path d="M16 9.3335V28.0002" stroke="#2563EB" strokeWidth="2.66667" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M4.00002 24C3.6464 24 3.30726 23.8595 3.05721 23.6095C2.80716 23.3594 2.66669 23.0203 2.66669 22.6667V5.33333C2.66669 4.97971 2.80716 4.64057 3.05721 4.39052C3.30726 4.14048 3.6464 4 4.00002 4H10.6667C12.0812 4 13.4377 4.5619 14.4379 5.5621C15.4381 6.56229 16 7.91885 16 9.33333C16 7.91885 16.5619 6.56229 17.5621 5.5621C18.5623 4.5619 19.9189 4 21.3334 4H28C28.3536 4 28.6928 4.14048 28.9428 4.39052C29.1929 4.64057 29.3334 4.97971 29.3334 5.33333V22.6667C29.3334 23.0203 29.1929 23.3594 28.9428 23.6095C28.6928 23.8595 28.3536 24 28 24H20C18.9392 24 17.9217 24.4214 17.1716 25.1716C16.4214 25.9217 16 26.9391 16 28C16 26.9391 15.5786 25.9217 14.8284 25.1716C14.0783 24.4214 13.0609 24 12 24H4.00002Z" stroke="#2563EB" strokeWidth="2.66667" strokeLinecap="round" strokeLinejoin="round" />
-=======
-            <path d="M16 9.3335V28.0002" stroke="#2563EB" strokeWidth="2.66667" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M4.00002 24C3.6464 24 3.30726 23.8595 3.05721 23.6095C2.80716 23.3594 2.66669 23.0203 2.66669 22.6667V5.33333C2.66669 4.97971 2.80716 4.64057 3.05721 4.39052C3.30726 4.14048 3.6464 4 4.00002 4H10.6667C12.0812 4 13.4377 4.5619 14.4379 5.5621C15.4381 6.56229 16 7.91885 16 9.33333C16 7.91885 16.5619 6.56229 17.5621 5.5621C18.5623 4.5619 19.9189 4 21.3334 4H28C28.3536 4 28.6928 4.14048 28.9428 4.39052C29.1929 4.64057 29.3334 4.97971 29.3334 5.33333V22.6667C29.3334 23.0203 29.1929 23.3594 28.9428 23.6095C28.6928 23.8595 28.3536 24 28 24H20C18.9392 24 17.9217 24.4214 17.1716 25.1716C16.4214 25.9217 16 26.9391 16 28C16 26.9391 15.5786 25.9217 14.8284 25.1716C14.0783 24.4214 13.0609 24 12 24H4.00002Z" stroke="#2563EB" strokeWidth="2.66667" strokeLinecap="round" strokeLinejoin="round"/>
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
           </svg>
           <h1>Meu Diário de Interesses</h1>
         </div>
@@ -313,16 +182,10 @@ export default function Diario() {
 
       <div className="diario-grid">
         <div className="diario-main-column">
-<<<<<<< HEAD
-
-=======
-          
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
           <section className="universal-card">
             <div className="card-header-with-icon justify-between">
               <div className="flex-row-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-<<<<<<< HEAD
                   <path d="M6.66669 1.6665V4.99984" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M13.3333 1.6665V4.99984" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M15.8333 3.3335H4.16667C3.24619 3.3335 2.5 4.07969 2.5 5.00016V16.6668C2.5 17.5873 3.24619 18.3335 4.16667 18.3335H15.8333C16.7538 18.3335 17.5 17.5873 17.5 16.6668V5.00016C17.5 4.07969 16.7538 3.3335 15.8333 3.3335Z" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
@@ -333,57 +196,28 @@ export default function Diario() {
               <input
                 type="date"
                 className="date-picker-input"
-=======
-                  <path d="M6.66669 1.6665V4.99984" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M13.3333 1.6665V4.99984" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M15.8333 3.3335H4.16667C3.24619 3.3335 2.5 4.07969 2.5 5.00016V16.6668C2.5 17.5873 3.24619 18.3335 4.16667 18.3335H15.8333C16.7538 18.3335 17.5 17.5873 17.5 16.6668V5.00016C17.5 4.07969 16.7538 3.3335 15.8333 3.3335Z" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2.5 8.3335H17.5" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <h2>Nova Entrada</h2>
-              </div>
-              <input 
-                type="date" 
-                className="date-picker-input" 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
               />
             </div>
 
-<<<<<<< HEAD
             <textarea
-=======
-            <textarea 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
               className="form-textarea"
               placeholder="O que você aprendeu hoje? Que temas despertaram seu interesse? Teve alguma reflexão..."
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
             />
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
             <div className="tags-selection-section">
               <div className="tags-header">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <g clipPath="url(#clip0_80_358)">
-<<<<<<< HEAD
                     <path d="M8.39065 1.72416C8.14066 1.4741 7.80157 1.33357 7.44798 1.3335H2.66665C2.31302 1.3335 1.97389 1.47397 1.72384 1.72402C1.47379 1.97407 1.33331 2.31321 1.33331 2.66683V7.44816C1.33339 7.80176 1.47391 8.14084 1.72398 8.39083L7.52665 14.1935C7.82966 14.4946 8.23948 14.6636 8.66665 14.6636C9.09382 14.6636 9.50364 14.4946 9.80665 14.1935L14.1933 9.80683C14.4944 9.50382 14.6634 9.094 14.6634 8.66683C14.6634 8.23966 14.4944 7.82984 14.1933 7.52683L8.39065 1.72416Z" stroke="#2563EB" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M5.00002 5.33317C5.18412 5.33317 5.33335 5.18393 5.33335 4.99984C5.33335 4.81574 5.18412 4.6665 5.00002 4.6665C4.81593 4.6665 4.66669 4.81574 4.66669 4.99984C4.66669 5.18393 4.81593 5.33317 5.00002 5.33317Z" fill="#2563EB" stroke="#2563EB" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
                   </g>
                   <defs>
                     <clipPath id="clip0_80_358">
                       <rect width="16" height="16" fill="white" />
-=======
-                    <path d="M8.39065 1.72416C8.14066 1.4741 7.80157 1.33357 7.44798 1.3335H2.66665C2.31302 1.3335 1.97389 1.47397 1.72384 1.72402C1.47379 1.97407 1.33331 2.31321 1.33331 2.66683V7.44816C1.33339 7.80176 1.47391 8.14084 1.72398 8.39083L7.52665 14.1935C7.82966 14.4946 8.23948 14.6636 8.66665 14.6636C9.09382 14.6636 9.50364 14.4946 9.80665 14.1935L14.1933 9.80683C14.4944 9.50382 14.6634 9.094 14.6634 8.66683C14.6634 8.23966 14.4944 7.82984 14.1933 7.52683L8.39065 1.72416Z" stroke="#2563EB" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M5.00002 5.33317C5.18412 5.33317 5.33335 5.18393 5.33335 4.99984C5.33335 4.81574 5.18412 4.6665 5.00002 4.6665C4.81593 4.6665 4.66669 4.81574 4.66669 4.99984C4.66669 5.18393 4.81593 5.33317 5.00002 5.33317Z" fill="#2563EB" stroke="#2563EB" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_80_358">
-                      <rect width="16" height="16" fill="white"/>
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                     </clipPath>
                   </defs>
                 </svg>
@@ -391,11 +225,7 @@ export default function Diario() {
               </div>
               <div className="tags-grid">
                 {TAGS_DISPONIVEIS.map(tag => (
-<<<<<<< HEAD
                   <button
-=======
-                  <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                     key={tag}
                     className={`tag-toggle-btn ${selectedTags.includes(tag) ? 'active' : ''}`}
                     onClick={() => toggleTag(tag)}
@@ -418,21 +248,12 @@ export default function Diario() {
             <div className="card-header-with-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <g clipPath="url(#clip0_80_392)">
-<<<<<<< HEAD
                   <path d="M10 18.3332C14.6024 18.3332 18.3334 14.6022 18.3334 9.99984C18.3334 5.39746 14.6024 1.6665 10 1.6665C5.39765 1.6665 1.66669 5.39746 1.66669 9.99984C1.66669 14.6022 5.39765 18.3332 10 18.3332Z" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M10 5V10L13.3333 11.6667" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                 </g>
                 <defs>
                   <clipPath id="clip0_80_392">
                     <rect width="20" height="20" fill="white" />
-=======
-                  <path d="M10 18.3332C14.6024 18.3332 18.3334 14.6022 18.3334 9.99984C18.3334 5.39746 14.6024 1.6665 10 1.6665C5.39765 1.6665 1.66669 5.39746 1.66669 9.99984C1.66669 14.6022 5.39765 18.3332 10 18.3332Z" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M10 5V10L13.3333 11.6667" stroke="#2563EB" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                </g>
-                <defs>
-                  <clipPath id="clip0_80_392">
-                    <rect width="20" height="20" fill="white"/>
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                   </clipPath>
                 </defs>
               </svg>
@@ -442,15 +263,9 @@ export default function Diario() {
             <div className="search-filter-row">
               <div className="search-box">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-<<<<<<< HEAD
                 <input
                   type="text"
                   placeholder="Buscar nas suas entradas..."
-=======
-                <input 
-                  type="text" 
-                  placeholder="Buscar nas suas entradas..." 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -458,17 +273,9 @@ export default function Diario() {
             </div>
 
             <div className="filter-count-row">
-<<<<<<< HEAD
-
               {/* --- MENU DE FILTROS --- */}
               <div className="filter-wrapper">
                 <button
-=======
-              
-              {/* --- MENU DE FILTROS --- */}
-              <div className="filter-wrapper">
-                <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                   className={`btn-filter ${filterOpen || activeTagFilter || activeEmojiFilter ? 'ativo' : ''}`}
                   onClick={() => setFilterOpen(!filterOpen)}
                 >
@@ -481,20 +288,12 @@ export default function Diario() {
                     <div className="filter-section">
                       <span className="filter-label">Por Tag:</span>
                       <div className="tags-grid">
-<<<<<<< HEAD
                         <button
-=======
-                        <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                           className={`tag-toggle-btn ${!activeTagFilter ? 'active' : ''}`}
                           onClick={() => setActiveTagFilter(null)}
                         >Todas</button>
                         {TAGS_DISPONIVEIS.map(tag => (
-<<<<<<< HEAD
                           <button
-=======
-                          <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                             key={tag}
                             className={`tag-toggle-btn ${activeTagFilter === tag ? 'active' : ''}`}
                             onClick={() => setActiveTagFilter(tag)}
@@ -502,28 +301,16 @@ export default function Diario() {
                         ))}
                       </div>
                     </div>
-<<<<<<< HEAD
 
                     <div className="filter-section">
                       <span className="filter-label">Por Emoji:</span>
                       <div className="tags-grid" style={{ gap: '4px' }}>
                         <button
-=======
-                    
-                    <div className="filter-section">
-                      <span className="filter-label">Por Emoji:</span>
-                      <div className="tags-grid" style={{ gap: '4px' }}>
-                        <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                           className={`tag-toggle-btn ${!activeEmojiFilter ? 'active' : ''}`}
                           onClick={() => setActiveEmojiFilter(null)}
                         >Todos</button>
                         {EMOJIS_DISPONIVEIS.map(emj => (
-<<<<<<< HEAD
                           <button
-=======
-                          <button 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                             key={emj}
                             className={`emoji-filter-btn ${activeEmojiFilter === emj ? 'active' : ''}`}
                             onClick={() => setActiveEmojiFilter(emj)}
@@ -557,32 +344,19 @@ export default function Diario() {
                   <div className="entrada-item-header">
                     <div className="entrada-meta-left">
                       <div className="emoji-picker-container">
-<<<<<<< HEAD
                         <span
-=======
-                        <span 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                           className="entrada-emoji clicavel"
                           onClick={() => setOpenEmojiId(openEmojiId === log.id ? null : log.id)}
                           title="Clique para trocar o emoji"
                         >
                           {log.emoji}
                         </span>
-<<<<<<< HEAD
 
                         {openEmojiId === log.id && (
                           <div className="emoji-popup">
                             {EMOJIS_DISPONIVEIS.map(emj => (
                               <span
                                 key={emj}
-=======
-                        
-                        {openEmojiId === log.id && (
-                          <div className="emoji-popup">
-                            {EMOJIS_DISPONIVEIS.map(emj => (
-                              <span 
-                                key={emj} 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                                 className="emoji-option"
                                 onClick={() => changeEmoji(log.id, emj)}
                               >
@@ -598,19 +372,12 @@ export default function Diario() {
                         <span className="entrada-time">{log.time}</span>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                       <div className="tags-row">
                         {log.tags.map((tag, index) => (
                           <span key={index} className="tag-badge">{tag}</span>
                         ))}
                       </div>
-=======
-                    <div className="tags-row" style={{ alignItems: 'center' }}>
-                      {log.tags.map((tag, index) => (
-                        <span key={index} className="tag-badge">{tag}</span>
-                      ))}
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
                       <button
                         type="button"
                         onClick={() => setLogToDelete(log.id)}
@@ -646,21 +413,12 @@ export default function Diario() {
         </div>
 
         <div className="diario-side-column">
-<<<<<<< HEAD
-
-=======
-          
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
           <section className="universal-card">
             <div className="card-header-with-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
               <h2>Estatísticas</h2>
             </div>
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
             <div className="stats-container">
               <div className="stat-box">
                 <span className="stat-number stat-blue">{entriesThisMonth}</span>
@@ -691,11 +449,8 @@ export default function Diario() {
 
         </div>
       </div>
-<<<<<<< HEAD
-      {/* MODAL DE CONFIRMAÇÃO DE EXCLUSÃO (Fundo escuro + Caixinha) */}
-=======
 
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
+      {/*CONFIRMAÇÃO DE EXCLUSÃO*/}
       {logToDelete && (
         <div
           style={{
@@ -753,24 +508,6 @@ export default function Diario() {
           </div>
         </div>
       )}
-<<<<<<< HEAD
-
-      {/* TOAST DE SUCESSO */}
-      {showDeleteToast && (
-        <div style={{
-          position: 'fixed', bottom: '32px', right: '32px', background: '#10B981', 
-          color: 'white', padding: '16px 24px', borderRadius: '8px', 
-          display: 'flex', alignItems: 'center', gap: '12px', 
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', zIndex: 50
-        }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          <span style={{ fontWeight: 500, fontSize: '15px' }}>
-            Anotação excluída com sucesso!
-          </span>
-        </div>
-      )}
-=======
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
     </div>
   );
 }

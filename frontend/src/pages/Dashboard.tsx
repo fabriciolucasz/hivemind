@@ -125,21 +125,16 @@ export default function Dashboard() {
       </div>
     );
   }
-<<<<<<< HEAD
-
   const firstName = user?.name ? user.name.split(' ')[0] : 'Estudante';
-=======
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
 
   return (
     <div className="page-container">
       <header className="page-header">
         <div className="page-title-row">
-<<<<<<< HEAD
+
           <h1 style={{ textTransform: 'capitalize' }}>Olá, {firstName}! 👋</h1>
-=======
           <h1 style={{ textTransform: 'capitalize' }}>Olá, {user?.name || 'Estudante'}! 👋</h1>
->>>>>>> 903e9688de3d6508b6f32d72032070ce9a939a76
+
         </div>
         <p className="page-subtitle">{dataDeHoje}</p>
       </header>
