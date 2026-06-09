@@ -4,19 +4,21 @@ interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
   size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
   children: React.ReactNode;
 }
 
 export function Button({
   variant = 'primary',
   size = 'md',
+  fullWidth = false,
   className = '',
   children,
   ...props
 }: ButtonProps) {
 
   const baseStyles =
-    'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:pointer-events-none w-full';
+    'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
 
   const variants = {
     primary:
@@ -43,7 +45,7 @@ export function Button({
 
   return (
     <button
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
       {...props}
     >
       {children}

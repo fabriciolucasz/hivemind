@@ -1,5 +1,12 @@
+import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 
+import { prisma } from '../database/prisma';
+import {
+  hasMailCredentials,
+  transporter,
+} from '../services/mailServices';
 import {
   loginService,
   registerService,
@@ -71,5 +78,141 @@ export async function login(
       message: error.message,
     });
 
+  }
+}
+
+export async function forgotPassword(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      res.status(400).json({
+        message: 'Informe o email',
+      });
+
+      return;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      res.json({
+        message: 'Se o email existir, enviaremos as instruções de recuperação',
+      });
+
+      return;
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 1000 * 60 * 15);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const link = `${frontendUrl}/reset-password/${token}`;
+
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        resetToken: token,
+        resetTokenExpiresAt: expires,
+      },
+    });
+
+    if (hasMailCredentials()) {
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Recuperação de senha',
+        html: `
+          <h2>Recuperação de senha</h2>
+          <p>Clique no link abaixo para criar uma nova senha:</p>
+          <a href="${link}">${link}</a>
+        `,
+      });
+    } else {
+      console.log(`Link de recuperação de senha para ${email}: ${link}`);
+    }
+
+    res.json({
+      message: 'Se o email existir, enviaremos as instruções de recuperação',
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Erro interno',
+    });
+  }
+}
+
+export async function resetPassword(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      res.status(400).json({
+        message: 'Token e senha são obrigatórios',
+      });
+
+      return;
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+      },
+    });
+
+    if (!user) {
+      res.status(400).json({
+        message: 'Token inválido',
+      });
+
+      return;
+    }
+
+    if (
+      !user.resetTokenExpiresAt ||
+      user.resetTokenExpiresAt < new Date()
+    ) {
+      res.status(400).json({
+        message: 'Token expirado',
+      });
+
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiresAt: null,
+      },
+    });
+
+    res.json({
+      message: 'Senha alterada com sucesso',
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Erro interno',
+    });
   }
 }

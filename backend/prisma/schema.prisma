@@ -1,18 +1,22 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
+  extensions = [vector]
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  id                   String    @id @default(uuid())
+  name                 String
+  email                String    @unique
+  password             String
+  resetToken           String?   @map("reset_token")
+  resetTokenExpiresAt  DateTime? @map("reset_token_expires_at") @db.Timestamptz(3)
+  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   profile Profile?
 
@@ -50,6 +54,8 @@ model DailyLog {
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
 
+  embedding Unsupported("vector(384)")?
+
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@index([profileId])
@@ -57,14 +63,19 @@ model DailyLog {
 }
 
 model AcademicRecord {
-  id                 String @id @default(uuid())
-  academicDiscipline String @map("academic_discipline")
+  id                 String  @id @default(uuid())
+  activity           String  @default("Atividade")
+  academicDiscipline String  @map("academic_discipline")
   score              Float
+  maxScore           Float   @default(10) @map("max_score")
+  type               String  @default("test")
+  notes              String?
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
 
   realizedAt DateTime @default(now()) @map("realized_at") @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@index([profileId])
   @@map("academic_records")
@@ -99,13 +110,20 @@ model TestAnswer {
 model Event {
   id           String             @id @default(uuid())
   title        String
-  description  String
+  description  String?
   date         DateTime?          @db.Timestamptz(3)
   location     String?
+  type         String             @default("other")
+  isAttending  Boolean            @default(false) @map("is_attending")
+  notes        String?
+  rating       Int?
   observations ObservationEvent[]
 
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @map("profile_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@index([profileId])
   @@map("events")
