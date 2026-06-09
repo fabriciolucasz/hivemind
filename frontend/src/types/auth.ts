@@ -1,3 +1,5 @@
+import type { User } from './user';
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -5,11 +7,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  user: User;
 }
 
 export interface ForgotPasswordRequest {
@@ -25,4 +23,13 @@ export interface ResetPasswordRequest {
   email: string;
   code: string;
   newPassword: string;
+}
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  age?: number;
+  grade?: string;
+  interests?: string;
 }

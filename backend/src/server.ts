@@ -1,5 +1,5 @@
-import { app } from "./app";
+import { app } from './app';
 
 app.listen(3000, () => {
-  console.log("Servidor rodando");
+  console.log('🚀 Server rodando na port 3000');
 });

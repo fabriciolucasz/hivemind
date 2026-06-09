@@ -177,7 +177,7 @@ export function LoginPage() {
 
             </div>
 
-            <Button type="submit">
+            <Button type="submit" fullWidth>
               Entrar
             </Button>
 

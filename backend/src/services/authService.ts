@@ -1,59 +1,120 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
 import { prisma } from '../database/prisma';
-import type { LoginRequest, RegisterRequest, TokenPayload } from '../types/auth';
-import nodemailer from "nodemailer";
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'changeme';
-const JWT_EXPIRES_IN = '7d';
+import type {
+  LoginRequest,
+  RegisterRequest,
+} from '../types/auth';
 
-export async function registerService({ name, email, password }: RegisterRequest) {
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) {
+const JWT_SECRET = process.env.JWT_SECRET || 'changeme';
+
+export async function registerService({
+  name,
+  email,
+  password,
+  age,
+  interests,
+}: RegisterRequest) {
+
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (existingUser) {
     throw new Error('Email já cadastrado');
   }
 
-  const hashed = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const interestsArray = interests
+    ? interests
+        .split(',')
+        .map((i: string) => i.trim())
+        .filter((i: string) => i.length > 0)
+    : [];
+
+  const parsedAge = age ? Number(age) : null;
 
   const user = await prisma.user.create({
-    data: { name, email, password: hashed },
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+      profile: {
+        create: {
+          age: parsedAge,
+          interests: interestsArray,
+        },
+      },
+    },
   });
 
-  const token = generateToken({ id: user.id, email: user.email });
+  const token = jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+    },
+    JWT_SECRET,
+    {
+      expiresIn: '7d',
+    }
+  );
 
   return {
     token,
-    user: { id: user.id, name: user.name, email: user.email },
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    },
   };
 }
 
-export async function loginService({ email, password }: LoginRequest) {
-  const user = await prisma.user.findUnique({ where: { email } });
+export async function loginService({
+  email,
+  password,
+}: LoginRequest) {
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
   if (!user) {
-    throw new Error('Email ou senha incorretos');
+    throw new Error('Email ou senha inválidos');
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = await bcrypt.compare(
+    password,
+    user.password
+  );
+
   if (!passwordMatch) {
-    throw new Error('Email ou senha incorretos');
+    throw new Error('Email ou senha inválidos');
   }
 
-  const token = generateToken({ id: user.id, email: user.email });
+  const token = jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+    },
+    JWT_SECRET,
+    {
+      expiresIn: '7d',
+    }
+  );
 
   return {
     token,
-    user: { id: user.id, name: user.name, email: user.email },
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    },
   };
 }
-
-function generateToken(payload: TokenPayload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
-}
-
-export const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
