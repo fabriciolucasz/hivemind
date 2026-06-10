@@ -10,7 +10,7 @@ import { vocationalTestPresenter } from '../presenters/vocationalTestPresenter';
 export const vocationalTestController = {
   async listAll(req: Request, res: Response) {
     try {
-      const userId = req.params.userId as string;
+      const userId = (req as any).user.id;
       const tests = await listVocationalTestsService(userId);
 
       return res.json(tests.map(vocationalTestPresenter));
@@ -26,6 +26,7 @@ export const vocationalTestController = {
 
   async create(req: Request, res: Response) {
     try {
+      req.body.userId = (req as any).user.id;
       const test = await createVocationalTestService(req.body);
 
       return res.status(201).json(vocationalTestPresenter(test));
@@ -42,7 +43,7 @@ export const vocationalTestController = {
   async delete(req: Request, res: Response) {
     try {
       const id = req.params.id as string;
-      const userId = req.query.userId as string;
+      const userId = (req as any).user.id;
 
       await deleteVocationalTestService(id, userId);
 
