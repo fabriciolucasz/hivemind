@@ -45,7 +45,7 @@ export default function Dashboard() {
   const fetchDashboardStats = useCallback(async () => {
     if (!user?.id) return;
     try {
-      const response = await api.get(`/api/daily-logs/${user.id}`);
+      const response = await api.get('/api/daily-logs');
       setDiaryCount(response.data.length);
     } catch (error) {
       console.error('Erro ao coletar diários:', error);
