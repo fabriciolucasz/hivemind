@@ -101,7 +101,7 @@ export function PerformancePage() {
         id: record.id,
         label: record.subject,
         value: normalizeScore(record),
-        title: `${record.subject}: ${normalizeScore(record).toFixed(1)}`,
+        title: `${record.subject}: ${record.result.toFixed(1)} de ${record.maxScore}`,
       })),
     [records]
   );
@@ -367,10 +367,10 @@ export function PerformancePage() {
             <div className="px-2 pb-2 pt-3">
               <div className="grid grid-cols-[44px_1fr] gap-3">
                 <div className="relative h-[300px] text-sm text-muted-foreground">
-                  <span className="absolute right-1 top-0 -translate-y-1/2">10</span>
-                  <span className="absolute right-1 top-[35%] -translate-y-1/2">6</span>
-                  <span className="absolute right-1 top-[70%] -translate-y-1/2">3</span>
-                  <span className="absolute bottom-0 right-1 translate-y-1/2">0</span>
+                  <span className="absolute right-1 top-0 -translate-y-1/2">100%</span>
+                  <span className="absolute right-1 top-[40%] -translate-y-1/2">60%</span>
+                  <span className="absolute right-1 top-[70%] -translate-y-1/2">30%</span>
+                  <span className="absolute bottom-0 right-1 translate-y-1/2">0%</span>
                 </div>
 
                 <div className="overflow-x-auto pb-8">
