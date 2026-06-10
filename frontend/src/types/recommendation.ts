@@ -4,9 +4,18 @@ export interface RecommendedCourse {
   reason: string;
 }
 
+export interface RecommendedMaterial {
+  type: string;
+  title: string;
+  detail: string;
+  level: string;
+}
+
 export interface RecommendationSuccess {
   status: 'success';
   recommendations: RecommendedCourse[];
+  materials: RecommendedMaterial[];
+  nextSteps: string[];
 }
 
 export interface RecommendationInsufficientData {

@@ -22,7 +22,7 @@ export function useDailyLogs(userId?: string) {
     try {
       setIsLoading(true);
       setError('');
-      const data = await listDailyLogs(userId);
+      const data = await listDailyLogs();
       setDailyLogs(data);
     } catch (loadError) {
       console.error('Erro ao carregar relatos:', loadError);

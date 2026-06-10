@@ -5,12 +5,10 @@ const recommendationService = new RecommendationService();
 
 export const generateRecommendation = async (req: Request, res: Response) => {
   try {
-    // Assumindo que o userId vem do middleware de autenticação (ex: req.user.id)
-    // Para simplificar no mock, caso não tenha, pegamos do body ou params
-    const userId = (req as any).user?.id || req.body.userId;
+    const userId = (req as any).user.id;
 
     if (!userId) {
-      return res.status(400).json({ error: 'User ID is required' });
+      return res.status(401).json({ error: 'User ID is required' });
     }
 
     const result = await recommendationService.generateRecommendation(userId);

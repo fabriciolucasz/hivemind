@@ -32,39 +32,7 @@ import type { RecommendedCourse } from '../types/recommendation';
 const requiredDiaryLogs = 15;
 const requiredAcademicRecords = 10;
 
-const materials = [
-  {
-    type: 'Curso online',
-    title: 'Introducao a Programacao',
-    detail: 'Fundamentos de logica, algoritmos e primeiras aplicacoes.',
-    level: 'Iniciante',
-  },
-  {
-    type: 'Projeto pratico',
-    title: 'Portfolio pessoal',
-    detail: 'Crie uma pagina para registrar aprendizados, projetos e interesses.',
-    level: 'Iniciante',
-  },
-  {
-    type: 'Livro',
-    title: 'Algoritmos e estruturas de dados',
-    detail: 'Base para resolver problemas com clareza e eficiencia.',
-    level: 'Intermediario',
-  },
-  {
-    type: 'Exploracao',
-    title: 'Semana de entrevistas',
-    detail: 'Converse com estudantes e profissionais das areas recomendadas.',
-    level: 'Livre',
-  },
-];
-
-const nextSteps = [
-  'Pesquisar grades curriculares dos cursos com maior compatibilidade.',
-  'Participar de uma palestra, oficina ou feira de profissoes da area.',
-  'Criar um pequeno projeto pratico para testar interesse real pela rotina.',
-  'Registrar novas reflexoes no diario para refinar a proxima analise.',
-];
+// Mocks de materials e nextSteps foram removidos para utilizarmos dados dinâmicos da IA.
 
 function clampPercentage(value: number) {
   return Math.max(0, Math.min(100, value));
@@ -123,6 +91,10 @@ export function MentorPage() {
   const reportGenerated = recommendation?.status === 'success';
   const recommendedCourses =
     recommendation?.status === 'success' ? recommendation.recommendations : [];
+  const recommendedMaterials =
+    recommendation?.status === 'success' ? recommendation.materials : [];
+  const recommendedNextSteps =
+    recommendation?.status === 'success' ? recommendation.nextSteps : [];
   const insufficientData =
     recommendation?.status === 'insufficient_data' ? recommendation : null;
   const latestTest = testHistory[0];
@@ -486,7 +458,7 @@ export function MentorPage() {
 
           <Card title="Materiais recomendados" icon={<BookOpen className="h-5 w-5" />}>
             <div className="grid gap-4 md:grid-cols-2">
-              {materials.map((material) => (
+              {recommendedMaterials?.map((material) => (
                 <article
                   key={material.title}
                   className="rounded-lg border border-border bg-accent/30 p-4 transition-all hover:border-primary/30"
@@ -531,7 +503,7 @@ export function MentorPage() {
 
           <Card title="Proximos passos" icon={<Target className="h-5 w-5" />}>
             <div className="space-y-3">
-              {nextSteps.map((step, index) => (
+              {recommendedNextSteps?.map((step, index) => (
                 <div key={step} className="rounded-lg border border-border bg-accent/30 p-4">
                   <div className="flex items-start gap-3">
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary/20 text-sm font-medium text-primary">

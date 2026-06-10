@@ -26,7 +26,7 @@ export function useVocationalTests(userId?: string) {
     try {
       setIsLoading(true);
       setError('');
-      const data = await listVocationalTests(userId);
+      const data = await listVocationalTests();
       setTestHistory(data);
     } catch (loadError) {
       console.error(loadError);
@@ -58,7 +58,7 @@ export function useVocationalTests(userId?: string) {
         throw new Error('Usuário não informado');
       }
 
-      await deleteVocationalTest(testId, userId);
+      await deleteVocationalTest(testId);
       setTestHistory((history) => history.filter((test) => test.id !== testId));
     },
     [userId]

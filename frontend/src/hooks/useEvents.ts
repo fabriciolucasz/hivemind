@@ -23,7 +23,7 @@ export function useEvents(userId?: string) {
     try {
       setIsLoading(true);
       setError('');
-      const data = await getEvents(userId);
+      const data = await getEvents();
       setEvents(data);
     } catch (loadError) {
       console.error(loadError);
@@ -50,7 +50,7 @@ export function useEvents(userId?: string) {
         throw new Error('Usuário não informado');
       }
 
-      const updatedEvent = await updateEvent(eventId, userId, data);
+      const updatedEvent = await updateEvent(eventId, data);
       await loadEvents();
 
       return updatedEvent;
@@ -64,7 +64,7 @@ export function useEvents(userId?: string) {
         throw new Error('Usuário não informado');
       }
 
-      await deleteEvent(eventId, userId);
+      await deleteEvent(eventId);
       await loadEvents();
     },
     [loadEvents, userId]

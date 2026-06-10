@@ -9,6 +9,7 @@ import {
 
 export async function createEventController(req: Request, res: Response) {
   try {
+    req.body.userId = (req as any).user.id;
     const event = await createEventService(req.body);
 
     return res.status(201).json(event);
@@ -21,8 +22,8 @@ export async function createEventController(req: Request, res: Response) {
 
 export async function getEventsController(req: Request, res: Response) {
   try {
-    const { userId } = req.query;
-    const events = await getEventsService(userId as string);
+    const userId = (req as any).user.id;
+    const events = await getEventsService(userId);
 
     return res.json(events);
   } catch (error) {
@@ -35,8 +36,8 @@ export async function getEventsController(req: Request, res: Response) {
 export async function updateEventController(req: Request, res: Response) {
   try {
     const id = req.params.id as string;
-    const { userId } = req.query;
-    const event = await updateEventService(id, userId as string, req.body);
+    const userId = (req as any).user.id;
+    const event = await updateEventService(id, userId, req.body);
 
     return res.json(event);
   } catch (error) {
@@ -49,9 +50,9 @@ export async function updateEventController(req: Request, res: Response) {
 export async function deleteEventController(req: Request, res: Response) {
   try {
     const id = req.params.id as string;
-    const { userId } = req.query;
+    const userId = (req as any).user.id;
 
-    await deleteEventService(id, userId as string);
+    await deleteEventService(id, userId);
 
     return res.status(204).send();
   } catch (error) {

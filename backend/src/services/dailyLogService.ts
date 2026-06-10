@@ -61,7 +61,20 @@ export async function createDailyLogService({
   return dailyLog;
 }
 
-export async function deleteDailyLogService(id: string) {
+export async function deleteDailyLogService(id: string, userId: string) {
+  const dailyLog = await prisma.dailyLog.findFirst({
+    where: {
+      id,
+      profile: {
+        userId,
+      },
+    },
+  });
+
+  if (!dailyLog) {
+    throw new Error('Registro não encontrado ou não pertence a este usuário.');
+  }
+
   return await prisma.dailyLog.delete({
     where: { id },
   });

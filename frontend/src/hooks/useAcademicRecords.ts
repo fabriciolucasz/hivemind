@@ -25,7 +25,7 @@ export function useAcademicRecords(userId?: string) {
     try {
       setIsLoading(true);
       setError('');
-      const data = await listAcademicRecords(userId);
+      const data = await listAcademicRecords();
       setRecords(data);
     } catch (loadError) {
       console.error(loadError);
@@ -52,7 +52,7 @@ export function useAcademicRecords(userId?: string) {
         throw new Error('Usuário não informado');
       }
 
-      await deleteAcademicRecord(recordId, userId);
+      await deleteAcademicRecord(recordId);
       setRecords((currentRecords) =>
         currentRecords.filter((record) => record.id !== recordId)
       );

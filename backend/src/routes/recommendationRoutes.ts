@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { generateRecommendation } from '../controllers/recommendationController';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = Router();
 
-// Rota para gerar recomendação (Mock ativado temporariamente)
-router.post('/recommendations/generate', generateRecommendation);
+router.post('/recommendations/generate', authMiddleware, generateRecommendation);
 
 export default router;
