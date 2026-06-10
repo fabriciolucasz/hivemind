@@ -12,6 +12,18 @@ const EXPECTED_JSON_FORMAT = Object.freeze({
       affinity: 0.95,
       reason: "Justificativa analítica baseada nos dados..."
     }
+  ],
+  materials: [
+    {
+      type: "Curso online",
+      title: "Introdução à Programação",
+      detail: "Fundamentos de lógica, algoritmos...",
+      level: "Iniciante"
+    }
+  ],
+  nextSteps: [
+    "Pesquisar grades curriculares...",
+    "Participar de palestra da área..."
   ]
 });
 

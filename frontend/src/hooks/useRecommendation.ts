@@ -20,7 +20,7 @@ export function useRecommendation(userId?: string) {
       setIsGenerating(true);
       setError('');
 
-      const data = await generateRecommendation(userId);
+      const data = await generateRecommendation();
       setRecommendation(data);
 
       return data;
