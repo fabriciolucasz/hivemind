@@ -64,7 +64,10 @@ export default function Layout() {
           >
             <EventosIcon /> Eventos
           </button>
-          <button className={path === "/mentor" ? "ativo" : ""}>
+          <button
+            className={path === "/mentor" ? "ativo" : ""}
+            onClick={() => navigate("/mentor")}
+          >
             <MentorIaIcon /> Mentor IA
           </button>
           <button 

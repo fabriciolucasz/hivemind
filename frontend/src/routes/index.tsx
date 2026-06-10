@@ -11,6 +11,7 @@ import { PerformancePage } from '../pages/PerformancePage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { ResetPassword } from '../pages/ResetPassword';
 import { VocationalTestPage } from '../pages/VocationalTestPage';
+import { MentorPage } from '../pages/MentorPage';
 import { PrivateRoute } from './PrivateRoute';
 
 export const router = createBrowserRouter([
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
           {
             path: '/evolucao',
             element: <PerformancePage />,
+          },
+          {
+            path: '/mentor',
+            element: <MentorPage />,
           },
           {
             path: '/perfil',
