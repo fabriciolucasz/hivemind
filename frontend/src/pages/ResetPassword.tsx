@@ -14,6 +14,7 @@ import axios from 'axios';
 
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
+import { api } from '../services/api';
 
 export function ResetPassword() {
 
@@ -48,13 +49,10 @@ export function ResetPassword() {
 
     try {
 
-      await axios.post(
-        'http://localhost:3000/auth/reset-password',
-        {
-          token,
-          password,
-        }
-      );
+      await api.post('/auth/reset-password', {
+        token,
+        password,
+      });
 
       setSuccess(
         'Senha alterada com sucesso!'

@@ -8,10 +8,9 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 
-import axios from 'axios';
-
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
+import { api } from '../services/api';
 
 export function ForgotPassword() {
 
@@ -39,10 +38,7 @@ export function ForgotPassword() {
 
     try {
 
-      await axios.post(
-        'http://localhost:3000/auth/forgot-password',
-        { email }
-      );
+      await api.post('/auth/forgot-password', { email });
 
       setSuccess(
         'Email de recuperação enviado com sucesso!'

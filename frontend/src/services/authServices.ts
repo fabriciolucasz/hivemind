@@ -6,8 +6,7 @@ import type {
   VerifyCodeRequest,
   ResetPasswordRequest,
 } from '../types/auth';
-
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+import { API_URL } from './api';
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
