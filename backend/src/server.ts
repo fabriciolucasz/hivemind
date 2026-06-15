@@ -1,6 +1,8 @@
 import { app } from './app';
 
-app.listen(3000, () => {
-  console.log('🚀 Server rodando na port 3000');
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`Server rodando em http://${HOST}:${PORT}`);
 });
-// Trigger restart
