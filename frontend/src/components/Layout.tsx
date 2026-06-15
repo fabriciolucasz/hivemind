@@ -24,7 +24,7 @@ export default function Layout() {
 
   return (
     <div className="layout-container">
-      {/* ================= BARRA LATERAL ================= */}
+      
       <aside className="sidebar">
         <div className="sidebar-logo-container">
           <div className="logo-icon">
@@ -51,7 +51,6 @@ export default function Layout() {
             <DiarioIcon /> Diário
           </button>
           
-          {/* Os outros botões continuam iguais por enquanto */}
           <button 
             className={path === "/evolucao" ? "ativo" : ""}
             onClick={() => navigate("/evolucao")}
@@ -91,9 +90,8 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* ================= ÁREA PRINCIPAL ================= */}
       <main className="main-content">
-        {/* O <Outlet /> é onde o React Router vai renderizar o Diario ou o Dashboard! */}
+        
         <Outlet />
       </main>
     </div>

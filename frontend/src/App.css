@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-/* ==========================================================================
-   RESETS E REGRAS GLOBAIS
-   ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -15,10 +12,6 @@ body, html {
   background-color: #F8FAFB;
 }
 
-
-/* ==========================================================================
-   ESTILOS DA EQUIPE (MAIN)
-   ========================================================================== */
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -204,12 +197,6 @@ body, html {
   }
 }
 
-
-/* ==========================================================================
-   ESTILOS DA PÁGINA DO DIÁRIO (MATHEUS)
-   ========================================================================== */
-
-/* Estrutura do Layout Principal splitado */
 .layout-container {
   display: flex;
   height: 100vh;
@@ -217,7 +204,6 @@ body, html {
   overflow: hidden;
 }
 
-/* ================= BARRA LATERAL ================= */
 .sidebar {
   width: 255px;
   background-color: white;
@@ -300,7 +286,6 @@ body, html {
   gap: 8px;
 }
 
-/* ================= ÁREA DE CONTEÚDO PRINCIPAL ================= */
 .main-content {
   flex: 1;
   min-width: 0;
@@ -308,9 +293,6 @@ body, html {
   overflow-x: hidden;
 }
 
-/* ================= ESTRUTURA UNIFICADA DE PÁGINAS ================= */
-
-/* Caixote master de qualquer página interna */
 .page-container {
   padding: 32px;
   display: flex;
@@ -319,14 +301,12 @@ body, html {
   max-width: 1200px;
 }
 
-/* Estrutura padrão de topo */
 .page-header {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Alinhamento horizontal para Ícone + Título */
 .page-title-row {
   display: flex;
   align-items: center;
@@ -349,7 +329,6 @@ body, html {
   margin: 0;
 }
 
-/* card base em branco */
 .universal-card {
   background: white;
   border-radius: 8px;
@@ -368,9 +347,6 @@ body, html {
   margin: 0;
 }
 
-/* ================= COMPONENTES INTERNOS GERAIS ================= */
-
-/* Inputs e Caixas de Texto */
 .form-textarea {
   width: 100%;
   border: 1px solid #E2E8F0;
@@ -394,7 +370,6 @@ body, html {
   color: #94A3B8;
 }
 
-/* Botões Padrões */
 .btn-primary {
   background-color: #2563EB;
   color: white;
@@ -412,7 +387,6 @@ body, html {
   background-color: #1D4ED8;
 }
 
-/* Rodapé do Formulário */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -420,7 +394,6 @@ body, html {
   margin-top: 4px;
 }
 
-/* Mensagens de Informação */
 .info-message {
   display: flex;
   align-items: center;
@@ -442,7 +415,6 @@ body, html {
   color: #64748B;
 }
 
-/* Títulos de Seção Soltos (Fora dos cards) */
 .section-header h2 {
   font-size: 20px;
   color: #1A202C;
@@ -450,7 +422,6 @@ body, html {
   margin: 0;
 }
 
-/* Lista de Cards do Diário */
 .entradas-list {
   display: flex;
   flex-direction: column;
@@ -474,7 +445,6 @@ body, html {
   margin: 0;
 }
 
-/* Etiquetas (Tags) */
 .tags-row {
   display: flex;
   gap: 8px;
@@ -490,7 +460,6 @@ body, html {
   font-weight: 500;
 }
 
-/* Alinhamento dos Títulos de Seção com Ícones */
 .card-header-with-icon {
   display: flex;
   align-items: center;
@@ -506,14 +475,12 @@ body, html {
   justify-content: center;
 }
 
-/* Estrutura ao redor da caixa de texto */
 .textarea-wrapper {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Footer logo abaixo da caixa de texto */
 .textarea-footer {
   display: flex;
   justify-content: space-between;
@@ -521,7 +488,6 @@ body, html {
   padding: 0 4px;
 }
 
-/* Botão Adicionar Tag */
 .btn-add-tag {
   background: transparent;
   border: 1px dashed #CBD5E1;
@@ -541,20 +507,17 @@ body, html {
   background-color: rgba(241, 245, 249, 0.5);
 }
 
-/* Contador de caracteres */
 .char-counter {
   font-size: 13px;
   color: #94A3B8;
   font-weight: 500;
 }
 
-/* ================= ESTRUTURA DA PÁGINA DIÁRIO  ================= */
-
 .diario-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* 2 partes para a esquerda, 1 parte para a direita */
+  grid-template-columns: 2fr 1fr; 
   gap: 24px;
-  align-items: start; /* Impede que as colunas estiquem desnecessariamente */
+  align-items: start; 
 }
 
 .diario-main-column, .diario-side-column {
@@ -562,7 +525,6 @@ body, html {
   flex-direction: column;
 }
 
-/* Utilitários Flex */
 .flex-row-center {
   display: flex;
   align-items: center;
@@ -582,8 +544,6 @@ body, html {
 .text-center {
   text-align: center;
 }
-
-/* --- ELEMENTOS DA NOVA ENTRADA --- */
 
 .date-picker-input {
   border: none;
@@ -644,8 +604,6 @@ body, html {
   align-items: center;
   margin-top: 8px;
 }
-
-/* --- ELEMENTOS DAS ENTRADAS ANTERIORES --- */
 
 .search-filter-row {
   display: flex;
@@ -754,8 +712,6 @@ body, html {
   font-size: 12px;
 }
 
-/* --- ESTATÍSTICAS E DICAS --- */
-
 .stats-container {
   display: flex;
   flex-direction: column;
@@ -812,7 +768,6 @@ body, html {
   color: #2563EB; 
 }
 
-/* --- SELETOR DE EMOJI --- */
 .emoji-picker-container {
   position: relative; 
 }
@@ -855,8 +810,6 @@ body, html {
   transform: scale(1.2);
   background-color: #F1F5F9;
 }
-
-/* ================= ESTRUTURA DO MENU DE FILTRO ================= */
 
 .filter-wrapper {
   position: relative;

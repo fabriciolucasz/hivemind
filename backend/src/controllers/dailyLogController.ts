@@ -30,13 +30,12 @@ export const dailyLogController = {
     }
   },
 
-  // FUNÇÃO DE EXCLUSÃO
   async delete(req: Request, res: Response) {
     try {
       const id = req.params.id as string;
       const userId = (req as any).user.id;
       await deleteDailyLogService(id, userId);
-      res.status(204).send(); // 204 significa "Sucesso e sem conteúdo para retornar"
+      res.status(204).send(); 
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }

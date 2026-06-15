@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../database/prisma';
 
 export const dashboardController = {
-  // Busca todas as estatísticas para alimentar as barras de progresso
+  
   async getStats(req: Request, res: Response) {
     try {
       const userId = req.params.userId as string;
@@ -44,7 +44,6 @@ export const dashboardController = {
     }
   },
 
-  // Atualiza as preferências do botão de lembrete
   async updateReminder(req: Request, res: Response) {
     try {
       const userId = req.params.userId as string;

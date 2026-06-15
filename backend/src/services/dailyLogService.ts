@@ -41,7 +41,7 @@ export async function createDailyLogService({
 
   try {
     const hf = new HfInference(process.env.HF_API_KEY);
-    // Extrai as features/embeddings do texto usando a API Gratuita da Hugging Face
+    
     const embeddingResponse = await hf.featureExtraction({
       model: 'sentence-transformers/all-MiniLM-L6-v2',
       inputs: text,
@@ -50,12 +50,11 @@ export async function createDailyLogService({
     const embeddingArray = embeddingResponse as number[];
     const embeddingString = JSON.stringify(embeddingArray);
 
-    // Injeta o embedding no banco (Prisma precisa de SQL bruto para o formato Unsupported do pgvector)
     await prisma.$executeRaw`UPDATE daily_logs SET embedding = ${embeddingString}::vector WHERE id = ${dailyLog.id}`;
 
   } catch (error) {
     console.error("Erro ao gerar ou salvar embedding para o DailyLog:", error);
-    // Não quebramos o fluxo principal caso o embedding falhe, apenas logamos
+    
   }
 
   return dailyLog;

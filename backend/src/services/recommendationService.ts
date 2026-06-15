@@ -3,7 +3,6 @@ import Groq from 'groq-sdk';
 import { HfInference } from '@huggingface/inference';
 import { prisma } from '../database/prisma';
 
-// Formato JSON esperado (Congelado para evitar mutações acidentais ou propositais no código)
 const EXPECTED_JSON_FORMAT = Object.freeze({
   status: "success",
   recommendations: [
@@ -32,7 +31,6 @@ export class RecommendationService {
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const hf = new HfInference(process.env.HF_API_KEY);
 
-    // 1. Get user profile
     const profile = await prisma.profile.findUnique({
       where: { userId },
       include: {
@@ -45,8 +43,6 @@ export class RecommendationService {
       throw new Error('Profile not found');
     }
 
-    // 2. Cold Start Verification
-    // Regra: Pelo menos 3 logs de diário e 2 registros acadêmicos para gerar recomendação
     if (profile.dailyLogs.length < 3 || profile.academicRecords.length < 2) {
       return {
         status: "insufficient_data",
@@ -55,10 +51,8 @@ export class RecommendationService {
       };
     }
 
-    // 3. Busca RAG (Vector Search) no Supabase pgvector
     const grades = profile.academicRecords.map(r => `${r.academicDiscipline}: ${r.score}`).join(', ');
     
-    // Constrói uma query baseada nos interesses e contexto geral do aluno
     const searchIntent = `Aspirações, habilidades e relatos relacionados a: ${profile.interests.join(', ')}`;
 
     let similarLogsText = "";
@@ -71,7 +65,6 @@ export class RecommendationService {
       const queryEmbedding = queryEmbeddingResponse as number[];
       const queryEmbeddingString = JSON.stringify(queryEmbedding);
 
-      // Busca os 10 relatos mais relevantes do diário deste perfil
       const similarLogs = await prisma.$queryRaw<{ text: string, date: string }[]>`
         SELECT text, date 
         FROM daily_logs 
@@ -83,11 +76,10 @@ export class RecommendationService {
       similarLogsText = similarLogs.map(l => `${l.date} - ${l.text}`).join('\\n');
     } catch (error) {
       console.error("Erro na busca vetorial, caindo para fallback de texto:", error);
-      // Fallback pegando os textos diretamente caso o embedding ou query falhem
+      
       similarLogsText = profile.dailyLogs.map(l => `${l.date} - ${l.text}`).join('\\n');
     }
     
-    // A variável prompt usa a constante congelada para o exemplo JSON.
     const prompt = `Você é um orientador vocacional. Com base nos seguintes dados de um estudante do ensino médio, recomende EXATAMENTE 3 cursos superiores compatíveis. Responda ESTRITAMENTE em formato JSON seguindo este modelo exato:
 
 ${JSON.stringify(EXPECTED_JSON_FORMAT, null, 2)}

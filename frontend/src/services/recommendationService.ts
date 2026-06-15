@@ -5,4 +5,3 @@ export async function generateRecommendation(): Promise<RecommendationResponse> 
   const response = await api.post('/api/recommendations/generate');
   return response.data;
 }
-

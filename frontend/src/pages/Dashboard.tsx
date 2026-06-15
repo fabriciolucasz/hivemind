@@ -20,7 +20,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Consumindo os dados reais do banco usando os hooks da equipe
   const { testHistory } = useVocationalTests(user?.id);
   const { records: performanceRecords } = useAcademicRecords(user?.id);
   const { events } = useEvents(user?.id);
@@ -98,14 +97,12 @@ export default function Dashboard() {
     localStorage.setItem('hivemind_reminder_time', newTime);
   };
 
-  // --- LÓGICA DINÂMICA DE PROGRESSO ---
   const requiredDiary = 15;
   const requiredPerformance = 10;
 
   const performanceCount = performanceRecords?.length || 0;
   const vocationalCompleted = testHistory?.length > 0; 
   
-  // mostrar apenas os futuros (max 3 eventos)
   const currentDateTime = new Date();
   const upcomingEvents = (events || [])
     .filter((event) => new Date(event.date) >= currentDateTime)
@@ -136,7 +133,6 @@ export default function Dashboard() {
         <p className="page-subtitle">{dataDeHoje}</p>
       </header>
 
-      {/* Card de Progresso da IA */}
       <section className="universal-card">
         <div className="card-header-with-icon">
           <div className="icon-placeholder">
@@ -160,7 +156,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Lista de sub-tarefas */}
         <div className="entradas-list" style={{ marginTop: '16px' }}>
 
           <div className="entrada-item-bordered" style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -213,7 +208,6 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* Grid Inferior */}
       <div className="diario-grid">
         <div className="diario-main-column">
           <section className="universal-card">
@@ -283,7 +277,6 @@ export default function Dashboard() {
           </section>
         </div>
 
-        {/* Coluna Direita: Próximos Eventos */}
         <div className="diario-side-column">
           <section className="universal-card">
             <div className="card-header-with-icon">
@@ -332,7 +325,6 @@ export default function Dashboard() {
         </div>
       </div>
       
-      {/* aviso entrada registrada com sucesso */}
       {showSuccessToast && (
         <div style={{
           position: 'fixed',

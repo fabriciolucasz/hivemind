@@ -27,4 +27,3 @@ export interface RecommendationInsufficientData {
 export type RecommendationResponse =
   | RecommendationSuccess
   | RecommendationInsufficientData;
-

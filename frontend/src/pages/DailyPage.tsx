@@ -17,7 +17,6 @@ const EMOJIS_DISPONIVEIS = [
 export default function Diario() {
   const { user } = useAuth();
   
-  // Usando a infraestrutura nova da equipe!
   const { showError, showSuccess } = useToast();
   const {
     dailyLogs,
@@ -28,19 +27,16 @@ export default function Diario() {
     updateEmojiLocally,
   } = useDailyLogs(user?.id);
 
-  // Estados dos formulários
   const [newText, setNewText] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [openEmojiId, setOpenEmojiId] = useState<string | null>(null);
   
-  // Estados de Filtro
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeTagFilter, setActiveTagFilter] = useState<string | null>(null);
   const [activeEmojiFilter, setActiveEmojiFilter] = useState<string | null>(null);
   
-  // Estados de Exclusão
   const [logToDelete, setLogToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -273,7 +269,7 @@ export default function Diario() {
             </div>
 
             <div className="filter-count-row">
-              {/* --- MENU DE FILTROS --- */}
+              
               <div className="filter-wrapper">
                 <button
                   className={`btn-filter ${filterOpen || activeTagFilter || activeEmojiFilter ? 'ativo' : ''}`}
@@ -327,8 +323,7 @@ export default function Diario() {
                   </div>
                 )}
               </div>
-              {/* ----------------------- */}
-
+              
               <span className="entries-count">{filteredDailyLogs.length} entradas</span>
             </div>
 
@@ -450,7 +445,6 @@ export default function Diario() {
         </div>
       </div>
 
-      {/*CONFIRMAÇÃO DE EXCLUSÃO*/}
       {logToDelete && (
         <div
           style={{

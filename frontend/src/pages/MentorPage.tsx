@@ -32,8 +32,6 @@ import type { RecommendedCourse } from '../types/recommendation';
 const requiredDiaryLogs = 15;
 const requiredAcademicRecords = 10;
 
-// Mocks de materials e nextSteps foram removidos para utilizarmos dados dinâmicos da IA.
-
 function clampPercentage(value: number) {
   return Math.max(0, Math.min(100, value));
 }

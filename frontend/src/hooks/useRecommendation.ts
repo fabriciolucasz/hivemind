@@ -50,4 +50,3 @@ export function useRecommendation(userId?: string) {
     resetRecommendation,
   };
 }
-
